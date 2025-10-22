@@ -1,0 +1,177 @@
+function manualCost(sol::Solution, costMatrix::Matrix{Float64})
+    cost = 0.
+    for r = 1:length(sol.routes)
+        for i = 1:length(sol.routes[r])-1
+            cost += costMatrix[sol.routes[r][i]+1, sol.routes[r][i+1]+1]
+        end
+    end
+    return cost
+end
+
+function manualCost(route::Vector{Int}, costMatrix::Matrix{Float64})
+    cost = 0.
+    for i = 1:length(route)-1
+        cost += costMatrix[route[i]+1, route[i+1]+1]
+    end
+    return cost
+end
+
+function bestInsertionCost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, customer::Int, j::Int)
+    newCost = currCost - costMatrix[route[j-1]+1, route[j]+1] + costMatrix[route[j-1]+1, customer+1] + costMatrix[customer+1, route[j]+1]
+    return newCost
+end
+
+function intraShift10Cost2(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, j::Int)
+    if j > i + 1
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j]+1, route[j+1]+1]
+        newCost += costMatrix[route[i-1]+1, route[i+1]+1] + costMatrix[route[j]+1, route[i]+1] + costMatrix[route[i]+1, route[j+1]+1]
+    end
+    if i > j + 1
+        # @show route[i-1], route[i], route[i+1], route[j-1], route[j], route[j+1]
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j-1]+1, route[j]+1]
+        newCost += costMatrix[route[i-1]+1, route[i+1]+1] + costMatrix[route[j-1]+1, route[i]+1] + costMatrix[route[i]+1, route[j]+1]
+    end
+    if j == i+1
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j]+1, route[j+1]+1]
+        newCost += costMatrix[route[i-1]+1, route[i+1]+1] + costMatrix[route[j]+1, route[i]+1] + costMatrix[route[i]+1, route[j+1]+1]
+    end
+    if i == j+1
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j-1]+1, route[j]+1]
+        newCost += costMatrix[route[j-1]+1, route[i]+1] + costMatrix[route[i]+1, route[j]+1] + costMatrix[route[i-1]+1, route[i+1]+1]
+    end
+    return newCost
+end
+
+function intraShift10Cost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j-1]+1, route[j]+1]
+    newCost += costMatrix[route[i-1]+1, route[i+1]+1] + costMatrix[route[j-1]+1, route[i]+1] + costMatrix[route[i]+1, route[j]+1]
+    return newCost
+end
+
+function intraShift20Cost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i+1]+1, route[i+2]+1] - costMatrix[route[j-1]+1, route[j]+1]
+    newCost += costMatrix[route[i-1]+1, route[i+2]+1] + costMatrix[route[j-1]+1, route[i]+1] + costMatrix[route[i+1]+1, route[j]+1]
+    return newCost
+end
+
+function intraSwap11Cost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, j::Int)
+    if i == j-1
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j]+1, route[j+1]+1]
+        newCost += costMatrix[route[i-1]+1, route[j]+1] + costMatrix[route[j]+1, route[i]+1] + costMatrix[route[i]+1, route[j+1]+1]
+    else
+        newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1] - costMatrix[route[j-1]+1, route[j]+1] - costMatrix[route[j]+1, route[j+1]+1]
+        newCost += costMatrix[route[i-1]+1, route[j]+1] + costMatrix[route[j]+1, route[i+1]+1] + costMatrix[route[j-1]+1, route[i]+1] + costMatrix[route[i]+1, route[j+1]+1]
+    end
+    return newCost
+end
+
+function twoOptCost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[j]+1, route[j+1]+1]
+    newCost += costMatrix[route[i]+1, route[j+1]+1] + costMatrix[route[i-1]+1, route[j]+1]
+    return newCost
+end
+
+function interShift10Cost(currCost::Float64, costMatrix::Matrix{Float64}, route1::Vector{Int}, route2::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route1[i-1]+1, route1[i]+1] - costMatrix[route1[i]+1, route1[i+1]+1] - costMatrix[route2[j-1]+1, route2[j]+1]
+    newCost += costMatrix[route1[i-1]+1, route1[i+1]+1] + costMatrix[route2[j-1]+1, route1[i]+1] + costMatrix[route1[i]+1, route2[j]+1]
+    return newCost
+end
+
+function interShift20Cost(currCost::Float64, costMatrix::Matrix{Float64}, route1::Vector{Int}, route2::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route1[i-1]+1, route1[i]+1] - costMatrix[route1[i+1]+1, route1[i+2]+1] - costMatrix[route2[j-1]+1, route2[j]+1]
+    newCost += costMatrix[route1[i-1]+1, route1[i+2]+1] + costMatrix[route2[j-1]+1, route1[i]+1] + costMatrix[route1[i+1]+1, route2[j]+1]
+    return newCost
+end
+
+function interSwap11Cost(currCost::Float64, costMatrix::Matrix{Float64}, route1::Vector{Int}, route2::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route1[i-1]+1, route1[i]+1] - costMatrix[route1[i]+1, route1[i+1]+1] - costMatrix[route2[j-1]+1, route2[j]+1] - costMatrix[route2[j]+1, route2[j+1]+1]
+    newCost += costMatrix[route1[i-1]+1, route2[j]+1] + costMatrix[route2[j]+1, route1[i+1]+1] + costMatrix[route2[j-1]+1, route1[i]+1]+ costMatrix[route1[i]+1, route2[j+1]+1]
+    return newCost
+end
+
+function interSwap22Cost(currCost::Float64, costMatrix::Matrix{Float64}, route1::Vector{Int}, route2::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route1[i-1]+1, route1[i]+1] - costMatrix[route1[i+1]+1, route1[i+2]+1] - costMatrix[route2[j-1]+1, route2[j]+1] - costMatrix[route2[j+1]+1, route2[j+2]+1]
+    newCost += costMatrix[route1[i-1]+1, route2[j]+1] + costMatrix[route2[j+1]+1, route1[i+2]+1] + costMatrix[route2[j-1]+1, route1[i]+1]+ costMatrix[route1[i+1]+1, route2[j+2]+1]
+    return newCost
+end
+
+function interSwap21Cost(currCost::Float64, costMatrix::Matrix{Float64}, route1::Vector{Int}, route2::Vector{Int}, i::Int, j::Int)
+    newCost = currCost - costMatrix[route1[i-1]+1, route1[i]+1] - costMatrix[route1[i+1]+1, route1[i+2]+1] - costMatrix[route2[j-1]+1, route2[j]+1] - costMatrix[route2[j]+1, route2[j+1]+1]
+    newCost += costMatrix[route1[i-1]+1, route2[j]+1] + costMatrix[route2[j]+1, route1[i+2]+1] + costMatrix[route2[j-1]+1, route1[i]+1]+ costMatrix[route1[i+1]+1, route2[j+1]+1]
+    return newCost
+end
+
+function familiarSwapCost(currCost::Float64, costMatrix::Matrix{Float64}, route::Vector{Int}, i::Int, outer::Int)
+    newCost = currCost - costMatrix[route[i-1]+1, route[i]+1] - costMatrix[route[i]+1, route[i+1]+1]
+    newCost += costMatrix[route[i-1]+1, outer+1] + costMatrix[outer+1, route[i+1]+1]
+    return newCost
+end
+
+
+"""
+    evalFamiliarRelocate(currCost, routes, solver, r1, i_remove, r2, j_insert, outer)
+
+Retorna o novo custo total após remover o cliente `routes[r1][i_remove]` da rota `r1`
+e inserir o cliente `outer` antes da posição `j_insert` da rota `r2`.
+
+Se `r1 == r2`, o caso é tratado corretamente (inclusive inserção adjacente).
+Cálculo em O(1).
+"""
+function familiarRelocateSwapCost(currCost::Float64, routes::Vector{Vector{Int}}, costMatrix::Matrix{Float64},
+                              r1::Int, i_remove::Int, r2::Int, j_insert::Int, outer::Int)
+    d = costMatrix
+    route1 = routes[r1]
+    route2 = routes[r2]
+
+    v = route1[i_remove] + 1
+    p_rem = route1[i_remove - 1] + 1
+    s_rem = route1[i_remove + 1] + 1
+
+    Δ = 0.0
+
+    if r1 != r2
+        a_ins = route2[j_insert - 1] + 1
+        b_ins = route2[j_insert] + 1
+        newCost = currCost - d[p_rem, v] - d[v, s_rem] - d[a_ins, b_ins] + d[p_rem, s_rem] + d[a_ins, outer+1] + d[outer+1, b_ins]
+        return newCost
+
+    else
+        # --- Caso 2: mesma rota ---
+        r = route1
+        n = length(r)
+
+        if j_insert == i_remove
+            # substituição direta
+            Δ = -d[p_rem, v] - d[v, s_rem] + d[p_rem, outer+1] + d[outer+1, s_rem]
+
+        elseif j_insert < i_remove
+            # inserção antes
+            a = r[j_insert - 1]+1
+            b = r[j_insert]+1
+            if j_insert + 1 == i_remove
+                # inserção imediatamente antes do removido
+                Δ = -d[a, b] - d[b, v] - d[v, s_rem] + d[a, outer+1] + d[outer+1, b] + d[b, s_rem]
+            else
+                Δ_insert = -d[a, b] + d[a, outer+1] + d[outer+1, b]
+                Δ_remove = -d[p_rem, v] - d[v, s_rem] + d[p_rem, s_rem]
+                Δ = Δ_insert + Δ_remove
+            end
+
+        else
+            # inserção depois
+            a = r[j_insert - 1]+1
+            b = r[j_insert]+1
+            if j_insert - 1 == i_remove
+                # inserção imediatamente depois do removido
+                Δ = -d[p_rem, v] - d[v, b] + d[p_rem, outer+1] + d[outer+1, b]
+            else
+                Δ_insert = -d[a, b] + d[a, outer+1] + d[outer+1, b]
+                Δ_remove = -d[p_rem, v] - d[v, s_rem] + d[p_rem, s_rem]
+                Δ = Δ_insert + Δ_remove
+            end
+        end
+    end
+
+    return currCost + Δ
+end
+

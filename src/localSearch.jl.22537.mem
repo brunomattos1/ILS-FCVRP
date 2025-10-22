@@ -1,0 +1,46 @@
+        - function RVND!(solver::Solver)
+        0     neighs = solver.active_neighs   # buffer reutilizável
+        0     src    = solver.neighborhoods   # conjunto base
+        - 
+        -     # restaura o vetor de vizinhanças (sem alocar)
+        0     resize!(neighs, length(src))
+        0     copyto!(neighs, src)
+        - 
+        0     while !isempty(neighs)
+        0         shuffle!(solver.seed, neighs)
+        -         improv = false
+        0         for neigh in neighs
+        0             if neigh == 1
+        0                 improv = intraShift10!(solver)
+        0             elseif neigh == 2
+        0                 improv = intraShift20!(solver)
+        0             elseif neigh == 3
+        0                 improv = intraSwap11!(solver)
+        0             elseif neigh == 4
+        0                 improv = twoOpt!(solver)
+        0             elseif neigh == 5
+        0                 improv = interShift10!(solver)
+        0             elseif neigh == 6
+        0                 improv = interShift20!(solver)
+        0             elseif neigh == 7
+        0                 improv = interSwap11!(solver)
+        0             elseif neigh == 8
+        0                 improv = interSwap22!(solver)
+        0             elseif neigh == 9
+        0                 improv = familiarSwap!(solver)
+        0             elseif neigh == 10
+        0                 improv = familiarRelocateSwap!(solver)
+        0             elseif neigh == 11
+        0                 improv = interSwap21!(solver)
+        -             end
+        0             updatePenalties(solver.params, solver.currSol)
+        0             if improv
+        0                 copyto!(neighs, src)
+        -                 break
+        -             end
+        0         end
+        0         if !improv
+        0             empty!(neighs)
+        -         end
+        -     end
+        - end

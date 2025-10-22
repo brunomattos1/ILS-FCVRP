@@ -1,0 +1,113 @@
+        - function read_problem_data(filename::String)::ProblemData
+        -     open(filename, "r") do file
+       96         coords = Dict{Int, Tuple{Float64, Float64}}()
+       80         family_assignments = Dict{Int, Int}()  # cliente_id → família
+       80         family_visits = Dict{Int, Int}()       # família → visitas requeridas
+       80         family_demand = Dict{Int, Float64}()   # família → demanda total
+       80         vertex_demand = Dict{Int, Float64}()   # cliente_id → demanda
+       32         family_visits_vec = Vector{Int}()
+        -         depot_id = 1
+        -         num_vehicles = 0
+        0         capacity = 0.0
+        -         min_visits = 0
+        -         max_visits = typemax(Int)
+        -         
+        -         section = ""
+        - 
+       48         for line in eachline(file)
+        0             line = strip(line)
+        0             isempty(line) && continue
+        - 
+        0             if startswith(line, "CAPACITY")
+      400                 capacity = parse(Float64, split(line, ":")[2])
+        0             elseif startswith(line, "VEHICLES")
+      384                 num_vehicles = parse(Int, split(line, ":")[2])
+        0             elseif startswith(line, "NODE_COORD_SECTION")
+        -                 section = "coords"
+        0             elseif startswith(line, "FAMILY_SECTION")
+        -                 section = "families"
+        0             elseif section == "coords"
+        0                 parts = split(line)
+        0                 id = parse(Int, parts[1])
+        0                 x = parse(Float64, parts[2])
+        0                 y = parse(Float64, parts[3])
+        0                 coords[id] = (x, y)
+        0             elseif section == "families"
+        0                 parts = split(line)
+        0                 fam_id = parse(Int, parts[1])
+        0                 num_nodes = parse(Int, parts[2])
+        0                 visits = parse(Int, parts[3])
+        0                 demand = parse(Float64, parts[4])
+        - 
+        -                 # Distribuir membros da família
+        0                 start_id = length(family_assignments) + 2  # pula depósito
+        0                 for i in 0:num_nodes-1
+        0                     client_id = start_id + i
+     6016                     family_assignments[client_id] = fam_id
+        0                 end
+        - 
+        -                 # Salvar visitas e demandas por família
+      464                 push!(family_visits_vec, visits)
+      368                 family_visits[fam_id] = visits
+        0                 family_demand[fam_id] = demand
+        -             end
+     3920         end
+        - 
+        -         # Distribuir demanda entre os vértices da mesma família
+        0         for (cid, fam) in family_assignments
+        0             num_nodes = count(x -> x == fam, values(family_assignments))
+        0             vertex_demand[cid] = family_demand[fam] / 1#num_nodes
+        0         end
+        - 
+        -         # Criar vértices
+       32         vertices = Vector{Vertex}()
+        0         depot_coord = coords[depot_id]
+       48         depot = Vertex(depot_id, depot_coord[1], depot_coord[2], 0.0, 0)
+        - 
+        0         for (id, (x, y)) in coords
+        0             if id == depot_id
+        -                 continue
+        -             end
+        0             fam = get(family_assignments, id, 0)
+        0             demand = get(vertex_demand, id, 0.0)
+     4800             push!(vertices, Vertex(id-1, x, y, demand, fam))
+        0         end
+        - 
+        -         # Construir matriz de custo (distâncias euclidianas)
+        0         n = length(vertices) + 1  # incluindo depósito
+    81752         costMatrix = zeros(n, n)
+       32         orderedVertices = Vector{Vertex}()
+        0         for i = 1:length(vertices)
+        0             push!(orderedVertices, vertices[findfirst(x -> x.id == i, vertices)])
+        0         end
+      928         all_vertices = [depot; orderedVertices]
+        0         for i in 1:n
+        0             for j in 1:n
+        0                 dx = all_vertices[i].x - all_vertices[j].x
+        0                 dy = all_vertices[i].y - all_vertices[j].y
+        0                 costMatrix[i, j] = floor(sqrt(dx^2 + dy^2) + 0.5)
+        0             end
+        0         end
+        - 
+        -         # Frota homogênea: todos os veículos têm a mesma capacidade
+        -         # vehicle_capacities = fill(round(Int, capacity), num_vehicles)
+        0         vehicles = [Vehicle(capacity) for i = 1:num_vehicles]
+       32         orderedVertices = Vector{Vertex}()
+        0         for i = 1:length(vertices)
+        0             push!(orderedVertices, vertices[findfirst(x -> x.id == i, vertices)])
+        0         end
+      240         return ProblemData(
+        -             depot,
+        -             orderedVertices,
+        -             costMatrix,
+        -             num_vehicles,
+        -             vehicles,
+        -             min_visits,
+        -             max_visits,
+        -             length(unique(values(family_assignments))),
+        -             collect(1:length(unique(values(family_assignments)))),
+        -             family_visits_vec
+        - 
+        -         )
+        -     end
+        - end

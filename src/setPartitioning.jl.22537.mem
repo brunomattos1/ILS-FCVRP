@@ -1,0 +1,113 @@
+        - function hash(route::Vector{Int})
+    22432     edges = Vector{Tuple{Int, Int}}()
+        0     for i = 1:length(route) - 1
+   368288         push!(edges, (route[i], route[i+1]))
+        0     end
+        0     return hash(edges)
+        - end
+        - 
+        - function solHash(sol::Solution)
+        -     edges = Vector{Tuple{Int, Int}}()
+        -     for r = 1:length(sol.routes)
+        -         for i = 1:length(sol.routes[r]) - 1
+        -             push!(edges, (sol.routes[r][i], sol.routes[r][i+1]))
+        -         end
+        -     end
+        -     return hash(edges)
+        - end
+        - 
+        - 
+        - function push!(solver::Solver)
+        0     for r = 1:length(solver.currSol.routes)
+        0         if solver.currSol.routeCapViolation[r] <= 1e-6 && solver.currSol.routeMinVisitsViolation[r] <= 1e-6 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-6
+        -             # routeHash = hash(solver.currSol.routes[r])
+        0             if haskey(solver.pool, solver.currSol.routes[r])
+    14976                 solver.pool[copy(solver.currSol.routes[r])] = min(solver.pool[solver.currSol.routes[r]], solver.currSol.cost)
+        -             else
+    36864                 solver.pool[copy(solver.currSol.routes[r])] = solver.currSol.cost
+        -             end
+        -         end
+        0     end
+        - end
+        - 
+        - function α(i::Int, route::Vector{Int})
+        -     return i in route
+        - end
+        - 
+        - function β(solver::Solver, route::Vector{Int}, family::Int)
+        -     visits = 0
+        -     for i in route
+        -         if i == 0
+        -             continue
+        -         end
+        -         if solver.data.vertices[i].family == family
+        -             visits += 1
+        -         end
+        -     end
+        -     return visits
+        - end
+        - 
+        - function c(solver::Solver, pool::Vector{Vector{Int}}, r::Int)
+        -     cost = 0.
+        -     for i = 1:length(pool[r])-1
+        -         cost += solver.data.costMatrix[pool[r][i]+1, pool[r][i+1]+1]
+        -     end
+        -     return cost
+        - end
+        - 
+        - function setPartitioning(solver::Solver)
+        0     sp = Model(CPLEX.Optimizer)
+        0     set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff", solver.bestSol.cost + 0.1)
+        0     pool = Vector{Vector{Int}}()
+        0     for (r, c) in solver.pool
+        0         push!(pool, r)
+        0     end
+        0     @show length(pool)
+        0     @show pool[1]
+        0     @variable(sp, λ[r = 1:length(pool)], Bin)
+        0     @objective(sp, Min, sum(c(solver, pool, r)λ[r] for r = 1:length(pool)))
+        - 
+        0     for f = 1:solver.data.numFamilies
+        0         @constraint(sp, sum(β(solver, pool[r], f)λ[r] for r = 1:length(pool)) >= solver.data.visits[f])
+        0     end
+        0     @constraint(sp, [i = 1:length(solver.data.vertices)], sum(α(i, pool[r])λ[r] for r = 1:length(pool)) <= 1)
+        0     @constraint(sp, sum(λ[r] for r = 1:length(pool)) <= solver.data.maxNbRoutes)
+        -     
+        0     optimize!(sp)
+        -     cost = 0.
+        0     @show termination_status(sp)
+        0     @show objective_value(sp)
+        0     if termination_status(sp) == OPTIMAL
+        0         for r = 1:length(pool)
+        0             if value(λ[r]) >= 0.9
+        0                 for i = 1:length(pool[r])-1
+        0                     cost += solver.data.costMatrix[pool[r][i]+1, pool[r][i+1]+1]
+        0                 end
+        -             end
+        0         end
+        0         sol = Solution()
+        0         sol.routes = [pool[r] for r = 1:length(pool) if value(λ[r]) >= 0.9]
+        0         sol.cost, sol.dist = cost, cost
+        0         return sol
+        0     elseif termination_status(sp) == TIME_LIMIT
+        0         if primal_status(sp) == FEASIBLE_POINT
+        0             for r = 1:length(pool)
+        0                 if value(λ[r]) >= 0.9
+        0                     for i = 1:length(pool[r])-1
+        0                         cost += solver.data.costMatrix[pool[r][i]+1, pool[r][i+1]+1]
+        0                     end
+        -                 end
+        0             end
+        0             if cost < solver.bestSol.cost - 0.001
+        0                 return Solution([pool[r] for r = 1:length(pool) if value(λ[r]) >= 0.9], 
+        -                 cost, 
+        -                 [computeViolation(solver, pool[r]) for r = 1:length(pool) if value(λ[r]) >= 0.9], 
+        -                 sum([computeViolation(solver, pool[r]) for r = 1:length(pool) if value(λ[r]) >= 0.9]))
+        -             end
+        -         else
+        0             return solver.bestSol
+        -         end
+        -     else
+        0         return solver.bestSol
+        -     end
+        - end
