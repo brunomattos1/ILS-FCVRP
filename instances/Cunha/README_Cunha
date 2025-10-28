@@ -1,0 +1,21 @@
+Cunha: Instances from "An ALNS metaheuristic for the family multiple traveling salesman problem" - Claudio B. Cunha, Dieferson Flori Massarotto, Sergio Luiz Fornazza,André Bergsten Mendes
+
+Number_of_nodes_excluding_depot
+Number_of_families
+Total_Number_of_Visits
+Number_of_tours
+Minimum_number_visits_per_tour Maximum_number_visits_per_tour
+Number_of_elements_Family_1 Number_of_elements_Family_2 Number_of_elements_Family_3 ...
+Nodes_that_represent_Family_1
+Nodes_that_represent_Family_2
+.
+.
+.
+Nodes_that_represent_last_Family
+id_family_1 number_of_visits_family_1
+id_family_2 number_of_visits_family_2
+.
+.
+.
+id_last_family number_of_visits_last_family
+Complete_Cost_Matrix_Depot_is_first_row_and_column

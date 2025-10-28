@@ -1,0 +1,321 @@
+Executando com parâmetros:
+  path       = instances/homogeneous_fleet/70_100/P76_2_8_2_2.fcvrp
+  seed       = 1
+  restarts   = 1
+  iterMax    = 5000
+  randShift  = 1
+  randSwap   = 1
+Executando instancia P76_2_8_2_2.fcvrp na seed 1
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           221.00 |           221.00 |       221.00 |        86.01 |      86.01 |      86.01 |      2 |     0.5793 |
+|        1 |        500 |           196.00 |           195.19 |       237.00 |         0.20 |       0.01 |       0.01 |    432 |     0.8588 |
+|        1 |       1000 |           196.00 |           195.19 |       218.49 |         0.03 |       0.01 |       0.01 |    733 |     1.6231 |
+|        1 |       1500 |           196.00 |           195.19 |       219.00 |         0.01 |       0.01 |       0.01 |   1019 |     2.3568 |
+|        1 |       2000 |           196.00 |           195.19 |       201.00 |         0.02 |       0.01 |       0.01 |   1242 |     3.0993 |
+|        1 |       2500 |           196.00 |           195.19 |       208.00 |         0.01 |       0.01 |       0.01 |   1477 |     3.8457 |
+|        1 |       3000 |           196.00 |           195.19 |       221.00 |         0.03 |       0.01 |       0.01 |   1714 |     4.5901 |
+|        1 |       3500 |           196.00 |           191.64 |       230.00 |         0.11 |       0.01 |       0.01 |   1901 |     5.3303 |
+|        1 |       4000 |           196.00 |           191.64 |       204.00 |         0.03 |       0.01 |       0.01 |   2092 |     6.0569 |
+|        1 |       4500 |           196.00 |           191.64 |       222.75 |         0.13 |       0.01 |       0.01 |   2334 |     6.7993 |
+|        1 |       5000 |           196.00 |           189.26 |       239.92 |         0.07 |       0.01 |       0.01 |   2552 |     7.6272 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              196.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 74 rows and 141 columns.
+MIP Presolve modified 755 coefficients.
+Reduced MIP has 10 rows, 88 columns, and 451 nonzeros.
+Reduced MIP has 88 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.58 ticks)
+Probing fixed 11 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.74 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 0 rows and 26 columns.
+Reduced MIP has 10 rows, 62 columns, and 316 nonzeros.
+Reduced MIP has 62 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.45 ticks)
+Probing time = 0.00 sec. (0.39 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+MIP Presolve eliminated 0 rows and 8 columns.
+Reduced MIP has 10 rows, 54 columns, and 278 nonzeros.
+Reduced MIP has 54 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.38 ticks)
+Probing time = 0.00 sec. (0.31 ticks)
+Clique table members: 183.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.06 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0     0      integral     0      196.0000      196.0000       11    0.00%
+Elapsed time = 0.01 sec. (4.40 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (4.40 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (4.40 ticks)
+termination_status(sp) = OPTIMAL
+objective_value(sp) = 196.0
+#1: 0 (0) -> 75 (16) -> 68 (32) -> 2 (53) -> 74 (69) -> 28 (89) -> 22 (104) -> 62 (120) -> 73 (136) -> 1 (157) -> 43 (176) -> 56 (194) -> 23 (209) -> 63 (225) -> 16 (243) -> 51 (262) -> 17 (280) -> 0 (280)
+#2: 0 (0) -> 67 (16) -> 46 (35) -> 34 (55) -> 52 (73) -> 13 (96) -> 54 (114) -> 19 (132) -> 53 (150) -> 7 (173) -> 26 (193) -> 0 (193)
+
+Cost: 196.0
+Executando instancia P76_2_8_2_2.fcvrp na seed 2
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           222.00 |           222.00 |       222.00 |        85.15 |      85.15 |      85.15 |      2 |     0.0022 |
+|        1 |        500 |           196.00 |           191.93 |       219.40 |         0.15 |       0.01 |       0.01 |    809 |     1.6301 |
+|        1 |       1000 |           196.00 |           191.93 |       220.65 |         0.02 |       0.01 |       0.01 |   1045 |     2.3323 |
+|        1 |       1500 |           196.00 |           191.93 |       228.88 |         0.08 |       0.01 |       0.01 |   1272 |     3.0621 |
+|        1 |       2000 |           196.00 |           190.51 |       220.00 |         0.01 |       0.01 |       0.01 |   1568 |     3.7490 |
+|        1 |       2500 |           196.00 |           190.51 |       219.33 |         0.03 |       0.01 |       0.01 |   1769 |     4.4825 |
+|        1 |       3000 |           196.00 |           190.51 |       200.00 |         0.03 |       0.01 |       0.01 |   2009 |     5.1987 |
+|        1 |       3500 |           196.00 |           190.51 |       212.00 |         0.02 |       0.01 |       0.01 |   2226 |     5.9082 |
+|        1 |       4000 |           196.00 |           189.73 |       244.00 |         0.39 |       0.01 |       0.01 |   2420 |     6.6423 |
+|        1 |       4500 |           196.00 |           189.73 |       255.00 |         0.13 |       0.01 |       0.01 |   2598 |     7.5094 |
+|        1 |       5000 |           196.00 |           189.73 |       218.00 |         0.11 |       0.01 |       0.01 |   2825 |     8.4840 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              196.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 74 rows and 157 columns.
+MIP Presolve modified 752 coefficients.
+Reduced MIP has 10 rows, 82 columns, and 416 nonzeros.
+Reduced MIP has 82 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (3.05 ticks)
+Probing fixed 10 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.71 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 0 rows and 10 columns.
+Reduced MIP has 10 rows, 72 columns, and 370 nonzeros.
+Reduced MIP has 72 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.30 ticks)
+Probing time = 0.00 sec. (0.58 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+MIP Presolve eliminated 0 rows and 3 columns.
+Reduced MIP has 10 rows, 69 columns, and 360 nonzeros.
+Reduced MIP has 69 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.50 ticks)
+Probing time = 0.00 sec. (0.54 ticks)
+Clique table members: 35.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.07 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0     0      integral     0      196.0000      196.0000       13    0.00%
+Elapsed time = 0.01 sec. (6.33 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (6.33 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (6.33 ticks)
+termination_status(sp) = OPTIMAL
+objective_value(sp) = 196.0
+#1: 0 (0) -> 46 (19) -> 34 (39) -> 52 (57) -> 27 (77) -> 13 (100) -> 54 (118) -> 19 (136) -> 53 (154) -> 7 (177) -> 67 (193) -> 0 (193)
+#2: 0 (0) -> 17 (18) -> 51 (37) -> 16 (55) -> 63 (71) -> 23 (86) -> 56 (104) -> 43 (123) -> 1 (144) -> 73 (160) -> 62 (176) -> 22 (191) -> 28 (211) -> 74 (227) -> 2 (248) -> 68 (264) -> 75 (280) -> 0 (280)
+
+Cost: 196.0
+Executando instancia P76_2_8_2_2.fcvrp na seed 3
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           196.00 |           196.00 |       196.00 |        74.72 |      74.72 |      74.72 |      2 |     0.0050 |
+|        1 |        500 |           196.00 |           191.25 |       208.00 |         0.01 |       0.01 |       0.01 |    361 |     0.7746 |
+|        1 |       1000 |           196.00 |           191.25 |       233.55 |         0.06 |       0.01 |       0.01 |    644 |     1.5224 |
+|        1 |       1500 |           196.00 |           191.25 |       239.00 |         0.24 |       0.01 |       0.01 |    923 |     2.2762 |
+|        1 |       2000 |           196.00 |           191.25 |       247.53 |         0.56 |       0.01 |       0.01 |   1159 |     3.0932 |
+|        1 |       2500 |           196.00 |           191.25 |       232.50 |         0.18 |       0.01 |       0.01 |   1403 |     3.8759 |
+|        1 |       3000 |           196.00 |           191.25 |       204.00 |         0.01 |       0.01 |       0.01 |   1630 |     4.6132 |
+|        1 |       3500 |           196.00 |           191.25 |       243.89 |         0.20 |       0.01 |       0.01 |   1853 |     5.4678 |
+|        1 |       4000 |           196.00 |           191.25 |       224.20 |         0.03 |       0.01 |       0.01 |   2049 |     6.2253 |
+|        1 |       4500 |           196.00 |           191.25 |       212.60 |         0.04 |       0.01 |       0.01 |   2258 |     6.9818 |
+|        1 |       5000 |           196.00 |           191.25 |       202.00 |         0.01 |       0.01 |       0.01 |   2500 |     7.7897 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              196.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 74 rows and 133 columns.
+MIP Presolve modified 649 coefficients.
+Reduced MIP has 10 rows, 78 columns, and 392 nonzeros.
+Reduced MIP has 78 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.74 ticks)
+Probing fixed 10 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.58 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 0 rows and 10 columns.
+Reduced MIP has 10 rows, 68 columns, and 341 nonzeros.
+Reduced MIP has 68 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.30 ticks)
+Probing time = 0.00 sec. (0.47 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+MIP Presolve eliminated 0 rows and 3 columns.
+Reduced MIP has 10 rows, 65 columns, and 325 nonzeros.
+Reduced MIP has 65 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.49 ticks)
+Probing time = 0.00 sec. (0.43 ticks)
+Clique table members: 40.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.09 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0     0      integral     0      196.0000      196.0000       20    0.00%
+Elapsed time = 0.01 sec. (4.57 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (4.57 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (4.57 ticks)
+termination_status(sp) = OPTIMAL
+objective_value(sp) = 196.0
+#1: 0 (0) -> 67 (16) -> 46 (35) -> 34 (55) -> 52 (73) -> 13 (96) -> 54 (114) -> 19 (132) -> 53 (150) -> 7 (173) -> 26 (193) -> 0 (193)
+#2: 0 (0) -> 17 (18) -> 51 (37) -> 16 (55) -> 63 (71) -> 23 (86) -> 56 (104) -> 43 (123) -> 1 (144) -> 73 (160) -> 62 (176) -> 22 (191) -> 28 (211) -> 74 (227) -> 2 (248) -> 68 (264) -> 75 (280) -> 0 (280)
+
+Cost: 196.0
+Executando instancia P76_2_8_2_2.fcvrp na seed 4
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           213.00 |           213.00 |       213.00 |        82.62 |      82.62 |      82.62 |      2 |     0.0024 |
+|        1 |        500 |           196.00 |           195.30 |       256.00 |         0.01 |       0.01 |       0.01 |    520 |     1.0354 |
+|        1 |       1000 |           196.00 |           193.82 |       202.00 |         0.12 |       0.01 |       0.01 |    796 |     1.8174 |
+|        1 |       1500 |           196.00 |           193.82 |       246.00 |         0.02 |       0.01 |       0.01 |   1066 |     2.5600 |
+|        1 |       2000 |           196.00 |           193.82 |       218.00 |         0.01 |       0.01 |       0.01 |   1335 |     3.3235 |
+|        1 |       2500 |           196.00 |           193.82 |       210.50 |         0.03 |       0.01 |       0.01 |   1558 |     4.1234 |
+|        1 |       3000 |           196.00 |           193.82 |       214.02 |         0.01 |       0.01 |       0.01 |   1734 |     4.8723 |
+|        1 |       3500 |           196.00 |           193.82 |       208.00 |         0.01 |       0.01 |       0.01 |   1897 |     5.6740 |
+|        1 |       4000 |           196.00 |           193.82 |       240.00 |         0.10 |       0.01 |       0.01 |   2131 |     6.4404 |
+|        1 |       4500 |           196.00 |           193.82 |       199.00 |         0.08 |       0.01 |       0.01 |   2288 |     7.1725 |
+|        1 |       5000 |           196.00 |           193.82 |       209.42 |         0.01 |       0.01 |       0.01 |   2458 |     7.9263 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              196.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 72 rows and 162 columns.
+MIP Presolve modified 932 coefficients.
+Reduced MIP has 10 rows, 85 columns, and 433 nonzeros.
+Reduced MIP has 85 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (3.45 ticks)
+Probing fixed 9 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.76 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 0 rows and 9 columns.
+Reduced MIP has 10 rows, 76 columns, and 387 nonzeros.
+Reduced MIP has 76 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.31 ticks)
+Probing time = 0.00 sec. (0.64 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 10 rows, 76 columns, and 387 nonzeros.
+Reduced MIP has 76 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.34 ticks)
+Probing time = 0.00 sec. (0.64 ticks)
+Clique table members: 55.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.11 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0     0      integral     0      196.0000      196.0000       24    0.00%
+Elapsed time = 0.01 sec. (6.85 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (6.85 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (6.85 ticks)
+termination_status(sp) = OPTIMAL
+objective_value(sp) = 196.0
+#1: 0 (0) -> 17 (18) -> 51 (37) -> 16 (55) -> 63 (71) -> 23 (86) -> 56 (104) -> 43 (123) -> 1 (144) -> 73 (160) -> 62 (176) -> 22 (191) -> 28 (211) -> 74 (227) -> 2 (248) -> 68 (264) -> 75 (280) -> 0 (280)
+#2: 0 (0) -> 46 (19) -> 34 (39) -> 52 (57) -> 27 (77) -> 13 (100) -> 54 (118) -> 19 (136) -> 53 (154) -> 7 (177) -> 67 (193) -> 0 (193)
+
+Cost: 196.0
+Executando instancia P76_2_8_2_2.fcvrp na seed 5
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           221.00 |           221.00 |       221.00 |        92.27 |      92.27 |      92.27 |      2 |     0.0017 |
+|        1 |        500 |           196.00 |           191.71 |       209.09 |         0.05 |       0.01 |       0.01 |    395 |     0.7967 |
+|        1 |       1000 |           196.00 |           191.71 |       218.99 |         0.05 |       0.01 |       0.01 |    702 |     1.5932 |
+|        1 |       1500 |           196.00 |           191.71 |       210.00 |         0.01 |       0.01 |       0.01 |    986 |     2.3924 |
+|        1 |       2000 |           196.00 |           191.71 |       215.38 |         0.03 |       0.01 |       0.01 |   1239 |     3.1469 |
+|        1 |       2500 |           196.00 |           191.71 |       226.58 |         0.09 |       0.01 |       0.01 |   1471 |     3.9813 |
+|        1 |       3000 |           196.00 |           191.71 |       203.00 |         0.04 |       0.01 |       0.01 |   1716 |     4.8073 |
+|        1 |       3500 |           196.00 |           191.71 |       223.00 |         0.01 |       0.01 |       0.01 |   1871 |     5.5630 |
+|        1 |       4000 |           196.00 |           191.71 |       212.00 |         0.01 |       0.01 |       0.01 |   2079 |     6.2969 |
+|        1 |       4500 |           196.00 |           191.71 |       203.00 |         0.10 |       0.01 |       0.01 |   2245 |     7.0256 |
+|        1 |       5000 |           196.00 |           191.71 |       217.00 |         0.01 |       0.01 |       0.01 |   2421 |     7.7899 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              196.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 72 rows and 139 columns.
+MIP Presolve modified 700 coefficients.
+Reduced MIP has 11 rows, 88 columns, and 497 nonzeros.
+Reduced MIP has 88 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (2.88 ticks)
+Probing fixed 7 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.76 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+MIP Presolve eliminated 0 rows and 8 columns.
+Reduced MIP has 11 rows, 80 columns, and 458 nonzeros.
+Reduced MIP has 80 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.39 ticks)
+Probing fixed 1 vars, tightened 0 bounds.
+Probing time = 0.00 sec. (0.66 ticks)
+Clique table members: 258.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.15 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0     0      integral     0      196.0000      196.0000       22    0.00%
+Elapsed time = 0.01 sec. (5.33 ticks, tree = 0.00 MB, solutions = 1)
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (5.34 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (5.34 ticks)
+termination_status(sp) = OPTIMAL
+objective_value(sp) = 196.0
+#1: 0 (0) -> 17 (18) -> 51 (37) -> 16 (55) -> 63 (71) -> 23 (86) -> 56 (104) -> 43 (123) -> 1 (144) -> 73 (160) -> 62 (176) -> 22 (191) -> 28 (211) -> 74 (227) -> 2 (248) -> 68 (264) -> 75 (280) -> 0 (280)
+#2: 0 (0) -> 67 (16) -> 34 (36) -> 52 (54) -> 13 (77) -> 54 (95) -> 19 (113) -> 53 (131) -> 35 (151) -> 8 (174) -> 46 (193) -> 0 (193)
+
+Cost: 196.0

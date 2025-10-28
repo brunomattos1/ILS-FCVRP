@@ -123,7 +123,7 @@ function applyMoveInterShift10!(solver::Solver, newDist::Float64, newCost::Float
     deleteat!(solver.currSol.routes[r1], i)
     insert!(solver.currSol.routes[r2], j, customerI)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[5, r1, r2] = solver.currSol.timeStamp
+    solver.currSol.lastEval[4, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 
@@ -154,7 +154,7 @@ function applyMoveInterShift20!(solver::Solver, newDist::Float64, newCost::Float
     insert!(solver.currSol.routes[r2], j, customerI2)
     insert!(solver.currSol.routes[r2], j, customerI1)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[6, r1, r2] = solver.currSol.timeStamp
+    solver.currSol.lastEval[5, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -185,7 +185,7 @@ function applyMoveInterSwap11!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routes[r1][i] = customerJ
     solver.currSol.routes[r2][j] = customerI
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[7, r1, r2] = solver.currSol.timeStamp
+    solver.currSol.lastEval[6, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -221,7 +221,7 @@ function applyMoveInterSwap22!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routes[r2][j] = customerI1
     solver.currSol.routes[r2][j+1] = customerI2
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[8, r1, r2] = solver.currSol.timeStamp
+    solver.currSol.lastEval[7, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -249,6 +249,10 @@ function applyMoveInterSwap21!(solver::Solver, newDist::Float64, newCost::Float6
     deleteat!(solver.currSol.routes[r1], i+1)
     solver.currSol.routes[r2][j] = customerI1
     insert!(solver.currSol.routes[r2], j+1, customerI2)
+    solver.currSol.timeStamp += 1
+    solver.currSol.lastEval[8, r1, r2] = solver.currSol.timeStamp
+    solver.currSol.lastModif[r1] = solver.currSol.timeStamp
+    solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
 
 function applyMoveFamiliarSwap(solver::Solver, newDist::Float64, newCost::Float64, newCapViol::Float64, newMinVisitsViol::Int, newMaxVisitsViol::Int, r::Int, i::Int, outer::Int)

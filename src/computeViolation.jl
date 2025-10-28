@@ -111,8 +111,8 @@ function computeViolInterSwap22(solver::Solver, r1::Int, r2::Int, i::Int, j::Int
 end
 
 function computeViolInterSwap21(solver::Solver, r1::Int, r2::Int, i::Int, j::Int)
-    firstRouteDemand = solver.currSol.demands[r1] - solver.currSol.routes[r1][i].demand - solver.currSol.routes[r1][i+1].demand + solver.currSol.routes[r2][j].demand
-    secondRouteDemand = solver.currSol.demands[r2] - solver.currSol.routes[r2][j].demand + solver.currSol.routes[r1][i].demand + solver.currSol.routes[r1][i+1].demand
+    firstRouteDemand = solver.currSol.demands[r1] - demand(solver, solver.currSol.routes[r1][i]) - demand(solver, solver.currSol.routes[r1][i+1]) + demand(solver, solver.currSol.routes[r2][j])
+    secondRouteDemand = solver.currSol.demands[r2] - demand(solver, solver.currSol.routes[r2][j]) + demand(solver, solver.currSol.routes[r1][i]) + demand(solver, solver.currSol.routes[r1][i+1])
     firstRouteCapViol = max(0, firstRouteDemand - solver.currSol.capacities[r1])
     secondRouteCapViol = max(0, secondRouteDemand - solver.currSol.capacities[r2])
 

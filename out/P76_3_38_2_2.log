@@ -1,0 +1,129 @@
+Executando com parâmetros:
+  path       = instances/homogeneous_fleet/70_100/P76_3_38_2_2.fcvrp
+  seed       = 1
+  restarts   = 1
+  iterMax    = 5000
+  randShift  = 1
+  randSwap   = 1
+Executando instancia P76_3_38_2_2.fcvrp na seed 1
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           452.00 |           452.00 |       452.00 |        87.72 |      80.97 |      80.97 |      3 |     0.6147 |
+|        1 |        500 |           413.00 |           412.51 |       441.00 |         2.69 |       0.01 |       0.01 |   1310 |     0.8880 |
+|        1 |        500 |           402.00 |           402.00 |       480.30 |         3.06 |       0.01 |       0.01 |   2662 |     1.8062 |
+|        1 |       1000 |           402.00 |           402.00 |       495.89 |         4.32 |       0.01 |       0.01 |   3426 |     2.3438 |
+|        1 |       1500 |           402.00 |           395.17 |       469.96 |         3.23 |       0.01 |       0.01 |   4198 |     2.8615 |
+|        1 |       2000 |           402.00 |           395.17 |       470.00 |         1.84 |       0.01 |       0.01 |   5017 |     3.3815 |
+|        1 |       2500 |           402.00 |           395.17 |       427.00 |         7.25 |       0.01 |       0.01 |   5819 |     3.8960 |
+|        1 |        500 |           391.00 |           390.60 |       471.00 |         2.25 |       0.01 |       0.01 |   7220 |     4.8400 |
+|        1 |       1000 |           391.00 |           390.60 |       463.00 |         3.01 |       0.01 |       0.01 |   7959 |     5.3916 |
+|        1 |       1500 |           391.00 |           390.60 |       477.08 |         3.37 |       0.01 |       0.01 |   8685 |     5.9029 |
+|        1 |       2000 |           391.00 |           390.60 |       485.98 |         3.04 |       0.01 |       0.01 |   9450 |     6.4396 |
+|        1 |        500 |           386.00 |           386.00 |       498.59 |         5.14 |       0.01 |       0.01 |  10656 |     7.2688 |
+|        1 |       1000 |           386.00 |           386.00 |       425.74 |         5.18 |       0.01 |       0.01 |  11426 |     7.7950 |
+|        1 |       1500 |           386.00 |           386.00 |       426.00 |         3.02 |       0.01 |       0.01 |  12241 |     8.3085 |
+|        1 |       2000 |           386.00 |           386.00 |       475.09 |         5.52 |       0.01 |       0.01 |  13013 |     8.9147 |
+|        1 |       2500 |           386.00 |           386.00 |       481.00 |         7.72 |       0.01 |       0.01 |  13827 |     9.5123 |
+|        1 |       3000 |           386.00 |           383.91 |       515.00 |         7.94 |       0.01 |       0.01 |  14643 |    10.0302 |
+|        1 |        500 |           382.00 |           382.00 |       471.00 |         7.29 |       0.01 |       0.01 |  15733 |    10.7939 |
+|        1 |       1000 |           382.00 |           382.00 |       493.25 |         5.31 |       0.01 |       0.01 |  16528 |    11.3020 |
+|        1 |       1500 |           382.00 |           382.00 |       445.00 |         4.44 |       0.01 |       0.01 |  17332 |    11.8716 |
+|        1 |       2000 |           382.00 |           382.00 |       474.41 |         2.56 |       0.01 |       0.01 |  18092 |    12.3856 |
+|        1 |       2500 |           382.00 |           382.00 |       473.00 |         6.69 |       0.01 |       0.01 |  18814 |    12.8893 |
+|        1 |       3000 |           382.00 |           382.00 |       420.42 |         5.15 |       0.01 |       0.01 |  19561 |    13.4184 |
+|        1 |       3500 |           382.00 |           382.00 |       512.00 |         2.92 |       0.01 |       0.01 |  20348 |    13.9579 |
+|        1 |       4000 |           382.00 |           382.00 |       469.00 |         3.29 |       0.01 |       0.01 |  21136 |    14.4631 |
+|        1 |       4500 |           382.00 |           382.00 |       471.79 |         2.99 |       0.01 |       0.01 |  21902 |    15.0043 |
+|        1 |        500 |           381.00 |           380.75 |       408.00 |         3.92 |       0.01 |       0.01 |  22647 |    15.5147 |
+|        1 |       1000 |           381.00 |           380.75 |       489.00 |         3.12 |       0.01 |       0.01 |  23431 |    16.0427 |
+|        1 |       1500 |           381.00 |           380.75 |       448.00 |         4.71 |       0.01 |       0.01 |  24180 |    16.5644 |
+|        1 |       2000 |           381.00 |           380.75 |       448.00 |         3.78 |       0.01 |       0.01 |  24928 |    17.1157 |
+|        1 |       2500 |           381.00 |           380.75 |       423.52 |         2.74 |       0.01 |       0.01 |  25714 |    17.6390 |
+|        1 |       3000 |           381.00 |           380.75 |       471.00 |        11.02 |       0.01 |       0.01 |  26539 |    18.1633 |
+|        1 |       3500 |           381.00 |           380.75 |       443.07 |         3.28 |       0.01 |       0.01 |  27378 |    18.6828 |
+|        1 |       4000 |           381.00 |           380.75 |       459.00 |         5.70 |       0.01 |       0.01 |  28163 |    19.3041 |
+|        1 |       4500 |           381.00 |           380.75 |       438.37 |         2.59 |       0.01 |       0.01 |  28993 |    19.8317 |
+|        1 |       5000 |           381.00 |           380.75 |       471.71 |         3.09 |       0.01 |       0.01 |  29775 |    20.3880 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              381.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 73 rows and 67 columns.
+MIP Presolve modified 378 coefficients.
+Reduced MIP has 39 rows, 72 columns, and 976 nonzeros.
+Reduced MIP has 72 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (5.06 ticks)
+Probing fixed 31 vars, tightened 0 bounds.
+Probing changed sense of 8 constraints.
+Probing time = 0.00 sec. (0.63 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 31 rows and 64 columns.
+MIP Presolve modified 8 coefficients.
+Reduced MIP has 7 rows, 8 columns, and 30 nonzeros.
+Reduced MIP has 8 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.15 ticks)
+Probing time = 0.00 sec. (0.01 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 7 rows, 8 columns, and 30 nonzeros.
+Reduced MIP has 8 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.02 ticks)
+Probing time = 0.00 sec. (0.01 ticks)
+Clique table members: 8.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.00 sec. (0.01 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0        cutoff                                          3         
+
+Root node processing (before b&c):
+  Real time             =    0.01 sec. (6.54 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.01 sec. (6.54 ticks)
+ERROR: LoadError: Result index of attribute MathOptInterface.ObjectiveValue(1) out of bounds. There are currently 0 solution(s) in the model.
+Stacktrace:
+  [1] check_result_index_bounds
+    @ ~/.julia/packages/MathOptInterface/zq9bo/src/attributes.jl:207 [inlined]
+  [2] get(model::CPLEX.Optimizer, attr::MathOptInterface.ObjectiveValue)
+    @ CPLEX ~/.julia/packages/CPLEX/5jmjD/src/MOI/MOI_wrapper.jl:3263
+  [3] get(b::MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, attr::MathOptInterface.ObjectiveValue)
+    @ MathOptInterface.Bridges ~/.julia/packages/MathOptInterface/zq9bo/src/Bridges/bridge_optimizer.jl:1247
+  [4] _get_model_attribute(model::MathOptInterface.Utilities.CachingOptimizer{MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, MathOptInterface.Utilities.UniversalFallback{MathOptInterface.Utilities.Model{Float64}}}, attr::MathOptInterface.ObjectiveValue)
+    @ MathOptInterface.Utilities ~/.julia/packages/MathOptInterface/zq9bo/src/Utilities/cachingoptimizer.jl:851
+  [5] get
+    @ ~/.julia/packages/MathOptInterface/zq9bo/src/Utilities/cachingoptimizer.jl:914 [inlined]
+  [6] _moi_get_result(model::MathOptInterface.Utilities.CachingOptimizer{MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, MathOptInterface.Utilities.UniversalFallback{MathOptInterface.Utilities.Model{Float64}}}, args::MathOptInterface.ObjectiveValue)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/optimizer_interface.jl:1199
+  [7] get(model::Model, attr::MathOptInterface.ObjectiveValue)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/optimizer_interface.jl:1219
+  [8] objective_value(model::Model; result::Int64)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/objective.jl:122
+  [9] objective_value
+    @ ~/.julia/packages/JuMP/N7h14/src/objective.jl:118 [inlined]
+ [10] macro expansion
+    @ ./show.jl:1270 [inlined]
+ [11] setPartitioning(solver::Solver)
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/setPartitioning.jl:86
+ [12] ILS(solver::Solver)
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/algorithms.jl:44
+ [13] macro expansion
+    @ ./timing.jl:461 [inlined]
+ [14] main(instance::String; plot::Bool, plotPath::String, plotName::String, seed::Int64, restarts::Int64, iterMax::Int64, nbGranular::Int64, penalty::Int64, randShift::Int64, randSwap::Int64, neighborhoods::Vector{Int64})
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/main.jl:81
+ [15] top-level scope
+    @ ~/Documentos/GitHub/ILS-FCVRP/src/main.jl:124
+ [16] include(mod::Module, _path::String)
+    @ Base ./Base.jl:306
+ [17] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:317
+ [18] _start()
+    @ Base ./client.jl:550
+in expression starting at /home/bruno/Documentos/GitHub/ILS-FCVRP/src/main.jl:122
+termination_status(sp) = INFEASIBLE

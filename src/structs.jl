@@ -93,21 +93,21 @@ end
 Parameters() = Parameters(1, 1, 100.0, 0.01, 100.0, 0.01, 100.0, 0.01)
 function updatePenalties(params::Parameters, sol::Solution)
     if sol.capViolation <= 1e-6
-        params.capPenalty = max(1.0, (1 - params.capPenaltyFactor) * params.capPenalty)
+        params.capPenalty = max(0.01, (1 - params.capPenaltyFactor) * params.capPenalty)
     else
         params.capPenalty = min(10000.0, (1 + params.capPenaltyFactor) * params.capPenalty)
     end
 
     if sol.minVisitsViolation <= 1e-6
-        params.minVisitsPenalty = max(10.0, (1 - params.minVisitsPenaltyFactor) * params.minVisitsPenalty)
+        params.minVisitsPenalty = max(0.01, (1 - params.minVisitsPenaltyFactor) * params.minVisitsPenalty)
     else
-        params.minVisitsPenalty = min(1000.0, (1 + params.minVisitsPenaltyFactor) * params.minVisitsPenalty)
+        params.minVisitsPenalty = min(10000.0, (1 + params.minVisitsPenaltyFactor) * params.minVisitsPenalty)
     end
 
     if sol.maxVisitsViolation <= 1e-6
-        params.maxVisitsPenalty = max(10.0, (1 - params.maxVisitsPenaltyFactor) * params.maxVisitsPenalty)
+        params.maxVisitsPenalty = max(0.01, (1 - params.maxVisitsPenaltyFactor) * params.maxVisitsPenalty)
     else
-        params.maxVisitsPenalty = min(1000.0, (1 + params.maxVisitsPenaltyFactor) * params.maxVisitsPenalty)
+        params.maxVisitsPenalty = min(10000.0, (1 + params.maxVisitsPenaltyFactor) * params.maxVisitsPenalty)
     end
 end
 
@@ -155,7 +155,8 @@ mutable struct Solver
     diversification::Diversification
     neighborhoods::Vector{Int}
     active_neighs::Vector{Int}
-    pool::Dict{Vector{Int}, Vector{Float64}}
+    pool::Dict{Vector{Int}, Float64}
+    poolVehicles::Vector{Int}
     hashes::Set{UInt64}
     buffer::Vector{Int}
 end
@@ -171,13 +172,14 @@ function Solver(;
     diversification = Diversification(),
     neighborhoods = [i for i = 1:10],
     active_neighs = [i for i = 1:10],
-    pool = Dict{Vector{Int}, Vector{Float64}}(),
+    pool = Dict{Vector{Int}, Float64}(),
+    poolVehicles = Vector{Int}(),
     hashes = Set{UInt64}(),
     buffer = Vector{Int}()
 )
     Solver(
         Random.MersenneTwister(seed), params, data, currSol, bestSol, bestFeasSol,
-        diversification, neighborhoods, active_neighs, pool, hashes, buffer
+        diversification, neighborhoods, active_neighs, pool, poolVehicles, hashes, buffer
     )
 end
 

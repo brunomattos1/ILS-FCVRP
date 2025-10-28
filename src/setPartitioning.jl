@@ -1,10 +1,10 @@
-# function hash(route::Vector{Int})
-#     edges = Vector{Tuple{Int, Int}}()
-#     for i = 1:length(route) - 1
-#         push!(edges, (route[i], route[i+1]))
-#     end
-#     return hash(edges)
-# end
+function hash(route::Vector{Int})
+    edges = Vector{Tuple{Int, Int}}()
+    for i = 1:length(route) - 1
+        push!(edges, (route[i], route[i+1]))
+    end
+    return hash(edges)
+end
 
 # function solHash(sol::Solution)
 #     edges = Vector{Tuple{Int, Int}}()
@@ -19,11 +19,15 @@
 
 function push!(solver::Solver)
     for r = 1:length(solver.currSol.routes)
-        if solver.currSol.routeCapViolation[r] <= 1e-6 && solver.currSol.routeMinVisitsViolation[r] <= 1e-6 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-6
+        if solver.currSol.routeCapViolation[r] <= 1e-4 && solver.currSol.routeMinVisitsViolation[r] <= 1e-4 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-4
+            # hash_ = hash(solver.currSol.routes[r])
             if haskey(solver.pool, solver.currSol.routes[r])
-                solver.pool[copy(solver.currSol.routes[r])][1] = min(solver.pool[solver.currSol.routes[r]][1], solver.currSol.cost)
+                solver.pool[copy(solver.currSol.routes[r])] = min(solver.pool[copy(solver.currSol.routes[r])], solver.currSol.cost)
             else
-                solver.pool[copy(solver.currSol.routes[r])] = Float64[solver.currSol.cost, r]
+                solver.pool[copy(solver.currSol.routes[r])] = solver.currSol.cost
+                # push!(solver.pool, copy(solver.currSol.routes[r]))
+                # solver.pool[copy(solver.currSol.routes[r])] = solver.currSol.cost
+                push!(solver.poolVehicles, r)
             end
         end
     end
@@ -56,20 +60,25 @@ end
 
 function setPartitioning(solver::Solver)
     sp = Model(CPLEX.Optimizer)
-    set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff", solver.bestFeasSol.cost + 0.1)
-    pool = collect(keys(solver.pool))
-    # for (r, c) in solver.pool
-    #     push!(pool, r)
-    # end
+    set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff", solver.bestFeasSol.cost + 0.5)
+    # pool = collect(keys(solver.pool))
+    # set_silent(sp)
+    pool = Vector{Vector{Int}}()
+    for (r, c) in solver.pool
+        push!(pool, r)
+    end
     @variable(sp, λ[r = 1:length(pool)], Bin)
     @objective(sp, Min, sum(c(solver, pool, r)λ[r] for r = 1:length(pool)))
 
     for f = 1:solver.data.numFamilies
-        @constraint(sp, sum(β(solver, pool[r], f)λ[r] for r = 1:length(pool)) >= solver.data.visits[f])
+        @constraint(sp, sum(β(solver, pool[r], f)λ[r] for r = 1:length(pool)) == solver.data.visits[f])
     end
+
     @constraint(sp, [i = 1:length(solver.data.vertices)], sum(α(i, pool[r])λ[r] for r = 1:length(pool)) <= 1)
-    for vehicle = 1:solver.data.maxNbRoutes
-        @constraint(sp, sum(λ[r] for r = 1:length(pool) if solver.pool[pool[r]][2] == vehicle) <= 1)
+    # @constraint(sp, sum(λ[r] for r = 1:length(pool)) == solver.data.maxNbRoutes)
+
+    for _vehicle = 1:solver.data.maxNbRoutes
+        @constraint(sp, sum(λ[r] for r = 1:length(solver.pool) if solver.poolVehicles[r] == _vehicle) <= 1)
     end
     optimize!(sp)
     cost = 0.

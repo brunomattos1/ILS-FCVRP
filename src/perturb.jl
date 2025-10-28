@@ -12,7 +12,7 @@ function perturb!(solver::Solver)
             perturbed = randomInterShit10!(solver)
         end
     else
-        for _ = 1:1
+        for _ = 1:5
             perturbed = randomFamiliarSwap!(solver)
         end
     end
@@ -35,7 +35,7 @@ function randomInterShit10!(solver::Solver)
     i = rand(solver.seed, 2:length(routes[r1])-1)
     j = rand(solver.seed, 2:length(routes[r2]))
     dist = evalInterShift10(sol.dist, routes, solver, r1, r2, i, j)
-    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterShift10(solver, r1, r2, i, j)
+    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterShift10(solver, r1, r2, i, j)
     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -62,7 +62,7 @@ function randomInterSwap11!(solver::Solver)
     j = rand(solver.seed, 2:length(routes[r2]) - 1)
     
     dist = evalInterSwap11(sol.dist, routes, solver, r1, r2, i, j)
-    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterSwap11(solver, r1, r2, i, j)
+    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterSwap11(solver, r1, r2, i, j)
     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -91,7 +91,7 @@ function randomFamiliarSwap!(solver::Solver)
             end
         end
         counter += 1
-        if counter > 7
+        if counter > 15
             return false
         end
     end

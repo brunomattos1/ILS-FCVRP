@@ -16,22 +16,25 @@ function RVND!(solver::Solver)
                 improv = intraShift20!(solver)
             elseif neigh == 3
                 improv = intraSwap11!(solver)
+            # elseif neigh == 4
+            #     improv = twoOpt!(solver)
             elseif neigh == 4
-                improv = twoOpt!(solver)
-            elseif neigh == 5
                 improv = interShift10!(solver)
-            elseif neigh == 6
+            elseif neigh == 5
                 improv = interShift20!(solver)
-            elseif neigh == 7
+            elseif neigh == 6
                 improv = interSwap11!(solver)
-            elseif neigh == 8
+            elseif neigh == 7
                 improv = interSwap22!(solver)
+            elseif neigh == 8
+                improv = interSwap21!(solver)
             elseif neigh == 9
                 improv = familiarSwap!(solver)
             elseif neigh == 10
-                improv = familiarRelocateSwap!(solver)
-            elseif neigh == 11
-                improv = interSwap21!(solver)
+                improv = true
+                while improv
+                    improv = familiarRelocateSwap!(solver)
+                end
             end
             updatePenalties(solver.params, solver.currSol)
             if improv

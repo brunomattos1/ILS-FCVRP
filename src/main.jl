@@ -28,11 +28,19 @@ function checkSolution(solver::Solver, sol::Solution)
     cost = 0.0
     visits = zeros(Int, solver.data.numFamilies)
     for r = 1:length(sol.routes)
+        num_visits_per_route = 0
         for i = 1:length(sol.routes[r])-1
             cost += solver.data.costMatrix[sol.routes[r][i]+1, sol.routes[r][i+1]+1]
             if sol.routes[r][i] != 0
+                num_visits_per_route += 1
                 visits[solver.data.vertices[sol.routes[r][i]].family] += 1
             end
+        end
+        if (solver.data.minVisits > num_visits_per_route)
+            println("a rota $r $(sol.routes[r]) esta visitando menos nós do q deveria")
+        end
+        if num_visits_per_route > solver.data.maxVisits
+            println("a rota $r $(sol.routes[r]) esta visitando mais nós do q deveria")
         end
     end
     if abs(cost - sol.dist) > 0.01
@@ -56,34 +64,75 @@ function main(instance::String;
             penalty::Int = 100,
             randShift::Int = 3,
             randSwap::Int = 3,
-            neighborhoods::Vector{Int} = [1, 2, 3, 5, 6, 7, 8, 10]
+            neighborhoods::Vector{Int} = [1, 2, 3, 4, 5, 6, 7, 10]
             )
-    # data = read_problem_data(instance)
-    data = read_heterogeneous_fleet(instance)
+    data = read_homogeneous_fleet(instance)
+    # data = read_heterogeneous_fleet(instance)
+    # data = read_cunha(instance)
+    
     data.maxNbRoutes = data.maxNbRoutes
     solver = Solver(
         seed = seed,
-        params = Parameters(restarts, iterMax, 10.0, 0.01, 100.0, 0.01, 100.0, 0.01), 
+        params = Parameters(restarts, iterMax, 100.0, 0.01, 100.0, 0.01, 100.0, 0.01), 
         diversification = Diversification(randShift, randSwap),
         data = data, 
         neighborhoods = neighborhoods
     )
-    @time ILS(solver)
-    # @show solver.bestFeasSol.cost
-    # @show solver.bestFeasSol.dist
-    # @show solver.bestFeasSol.routes
-    # @show solver.bestFeasSol.demands
-    # @show solver.bestFeasSol.capacities
-    # constructSol!(solver)
+    time = @elapsed ILS(solver)
     checkSolution(solver, solver.bestSol)
-    # @show solver.bestSol
     printSolution(solver, solver.bestSol)
-    return 0
+    return time, solver.bestSol.cost
 end
-path = "/home/bruno/Documentos/GitHub/ILS-FCVRP/instances/heterogeneous_fleet/SYPr1003D.dat"
-main(path;
-    seed = 1,
-    restarts = 1, 
-    iterMax = 1000,
-    randShift = 1,
-    randSwap = 1)
+# path = "/home/bruno/Documentos/GitHub/ILS-FCVRP/instances/heterogeneous_fleet/SYBier1003D.dat"
+# main(path;
+#     seed = 1,
+#     restarts = 1, 
+#     iterMax = 3000,
+#     randShift = 1,
+#     randSwap = 1)
+
+if length(ARGS) < 1
+    println("Uso: julia main.jl <path> [seed] [restarts] [iterMax] [randShift] [randSwap]")
+    exit(1)
+end
+
+# Lê argumentos do terminal
+path       = ARGS[1]
+seed       = length(ARGS) >= 2 ? parse(Int, ARGS[2]) : 1
+restarts   = length(ARGS) >= 3 ? parse(Int, ARGS[3]) : 1
+iterMax    = length(ARGS) >= 4 ? parse(Int, ARGS[4]) : 5000
+randShift  = length(ARGS) >= 5 ? parse(Int, ARGS[5]) : 1
+randSwap   = length(ARGS) >= 6 ? parse(Int, ARGS[6]) : 1
+
+# Exibe os parâmetros
+println("Executando com parâmetros:")
+println("  path       = $path")
+println("  seed       = $seed")
+println("  restarts   = $restarts")
+println("  iterMax    = $iterMax")
+println("  randShift  = $randShift")
+println("  randSwap   = $randSwap")
+
+global bestCost = Inf
+global avgCost = 0.0
+global avgTime = 0.0
+seeds = 5
+instance = split(path, "/")[end]
+# Chama sua função principal
+for seed = 1:seeds
+    println("Executando instancia $instance na seed $seed")
+    time, cost = main(path; seed = seed, restarts = restarts, iterMax = iterMax, randShift = randShift, randSwap = randSwap)
+    global avgTime += time
+    global avgCost += cost
+    if cost < bestCost - 1e-6
+        global bestCost = cost
+    end
+    Profile.clear_malloc_data()
+    GC.gc()
+end
+global avgTime = avgTime/seeds
+global avgCost = avgCost/seeds
+
+open("results/results.txt", "a") do f
+    write(f, "$instance,$bestCost,$avgCost,$avgTime\n")
+end

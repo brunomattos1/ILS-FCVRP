@@ -75,6 +75,9 @@ function bestParallelInsertion(solver::Solver)
             end
 
             for r = 1:length(currSol.routes)
+                if length(currSol.routes[r]) - 2 >= solver.data.maxVisits
+                    continue
+                end
                 for j = 2:length(currSol.routes[r])-1  # posição de inserção
                     dist = evalBestInsertion(currSol.dist, currSol.routes, solver, r, vertices[i].id, j)
                     capViol, minVisitsViol, maxVisitsViol = computeViolationInsertion(solver, r, vertices[i].id, j)

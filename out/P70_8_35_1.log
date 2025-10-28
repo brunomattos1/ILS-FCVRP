@@ -1,0 +1,140 @@
+Executando com parâmetros:
+  path       = instances/homogeneous_fleet/70_100/P70_8_35_1.fcvrp
+  seed       = 1
+  restarts   = 1
+  iterMax    = 5000
+  randShift  = 1
+  randSwap   = 1
+Executando instancia P70_8_35_1.fcvrp na seed 1
+------------------------------------------------------------------------------------------------------------------------------------------------
+|  Restart |       Iter |       Best Feas. |             Best |      Current |       CapPen |  MinVisPen |  MaxVisPen |   Pool |    Time(s) |
+------------------------------------------------------------------------------------------------------------------------------------------------
+|        1 |          0 |           669.00 |           669.00 |       669.00 |        66.90 |      66.90 |      66.90 |      8 |     0.5693 |
+|        1 |        500 |           608.00 |           608.00 |       619.94 |         0.67 |       0.01 |       0.01 |   1220 |     0.7733 |
+|        1 |        500 |           604.00 |           604.00 |       636.03 |         1.20 |       0.01 |       0.01 |   1981 |     1.5420 |
+|        1 |       1000 |           604.00 |           604.00 |       631.45 |         1.54 |       0.01 |       0.01 |   2509 |     2.1178 |
+|        1 |       1500 |           604.00 |           603.11 |       631.00 |         1.09 |       0.01 |       0.01 |   2989 |     2.6827 |
+|        1 |       2000 |           604.00 |           603.11 |       635.00 |         1.40 |       0.01 |       0.01 |   3475 |     3.2428 |
+|        1 |       2500 |           604.00 |           603.11 |       624.10 |         1.44 |       0.01 |       0.01 |   3839 |     3.8149 |
+|        1 |       3000 |           604.00 |           603.11 |       619.00 |         2.59 |       0.01 |       0.01 |   4212 |     4.4028 |
+|        1 |       3500 |           604.00 |           603.11 |       623.00 |         0.92 |       0.01 |       0.01 |   4566 |     4.9982 |
+|        1 |       4000 |           604.00 |           603.11 |       634.55 |         1.18 |       0.01 |       0.01 |   4952 |     5.5879 |
+|        1 |       4500 |           604.00 |           603.11 |       631.33 |         4.73 |       0.01 |       0.01 |   5367 |     6.1910 |
+|        1 |       5000 |           604.00 |           603.11 |       621.00 |         1.94 |       0.01 |       0.01 |   5583 |     6.7598 |
+Version identifier: 22.1.1.0 | 2022-11-28 | 9160aff4d
+CPXPARAM_MIP_Tolerances_UpperCutoff              604.5
+Tried aggregator 1 time.
+MIP Presolve eliminated 40 rows and 182 columns.
+Reduced MIP has 72 rows, 2503 columns, and 26409 nonzeros.
+Reduced MIP has 2503 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.05 sec. (26.09 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 72 rows, 2503 columns, and 26409 nonzeros.
+Reduced MIP has 2503 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.03 sec. (17.28 ticks)
+Probing time = 0.02 sec. (6.54 ticks)
+Clique table members: 298.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.03 sec. (30.09 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0      588.3788    37                    588.3788      335         
+      0     0      595.0720    48                    Cuts: 64      535         
+      0     0      597.1165    64                    Cuts: 27      660         
+Detecting symmetries...
+
+Repeating presolve.
+Tried aggregator 1 time.
+MIP Presolve eliminated 1 rows and 911 columns.
+Reduced MIP has 71 rows, 1592 columns, and 17530 nonzeros.
+Reduced MIP has 1592 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (12.84 ticks)
+Tried aggregator 1 time.
+Detecting symmetries...
+Reduced MIP has 71 rows, 1592 columns, and 17530 nonzeros.
+Reduced MIP has 1592 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (10.27 ticks)
+Represolve time = 0.10 sec. (40.26 ticks)
+Probing fixed 2 vars, tightened 0 bounds.
+Probing time = 0.04 sec. (14.33 ticks)
+Clique table members: 236.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 0.04 sec. (34.53 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0      597.2423    59                    597.2423     1077         
+      0     0      598.0016    63                    Cuts: 27     1216         
+      0     0      598.1974    74                    Cuts: 24     1320         
+      0     0      598.5844    73                    Cuts: 26     1419         
+      0     0      598.8897    71                    Cuts: 14     1577         
+      0     0      599.1209    68                     Cuts: 9     1666         
+      0     0      599.3532    76                    Cuts: 20     1759         
+      0     0      599.4821    75                     Cuts: 9     1845         
+      0     0      599.5369    84                    Cuts: 19     1909         
+      0     0      599.6108    76                     Cuts: 8     2004         
+      0     0      599.6525    86                    Cuts: 21     2089         
+      0     0      599.6977    82                    Cuts: 10     2174         
+Detecting symmetries...
+      0     2      599.6977    82                    599.6977     2174         
+Elapsed time = 2.18 sec. (960.11 ticks, tree = 0.02 MB, solutions = 0)
+
+Clique cuts applied:  63
+Zero-half cuts applied:  16
+
+Root node processing (before b&c):
+  Real time             =    2.16 sec. (959.13 ticks)
+Parallel b&c, 4 threads:
+  Real time             =    0.55 sec. (239.74 ticks)
+  Sync time (average)   =    0.13 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    2.71 sec. (1198.87 ticks)
+ERROR: LoadError: Result index of attribute MathOptInterface.ObjectiveValue(1) out of bounds. There are currently 0 solution(s) in the model.
+Stacktrace:
+  [1] check_result_index_bounds
+    @ ~/.julia/packages/MathOptInterface/zq9bo/src/attributes.jl:207 [inlined]
+  [2] get(model::CPLEX.Optimizer, attr::MathOptInterface.ObjectiveValue)
+    @ CPLEX ~/.julia/packages/CPLEX/5jmjD/src/MOI/MOI_wrapper.jl:3263
+  [3] get(b::MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, attr::MathOptInterface.ObjectiveValue)
+    @ MathOptInterface.Bridges ~/.julia/packages/MathOptInterface/zq9bo/src/Bridges/bridge_optimizer.jl:1247
+  [4] _get_model_attribute(model::MathOptInterface.Utilities.CachingOptimizer{MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, MathOptInterface.Utilities.UniversalFallback{MathOptInterface.Utilities.Model{Float64}}}, attr::MathOptInterface.ObjectiveValue)
+    @ MathOptInterface.Utilities ~/.julia/packages/MathOptInterface/zq9bo/src/Utilities/cachingoptimizer.jl:851
+  [5] get
+    @ ~/.julia/packages/MathOptInterface/zq9bo/src/Utilities/cachingoptimizer.jl:914 [inlined]
+  [6] _moi_get_result(model::MathOptInterface.Utilities.CachingOptimizer{MathOptInterface.Bridges.LazyBridgeOptimizer{CPLEX.Optimizer}, MathOptInterface.Utilities.UniversalFallback{MathOptInterface.Utilities.Model{Float64}}}, args::MathOptInterface.ObjectiveValue)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/optimizer_interface.jl:1199
+  [7] get(model::Model, attr::MathOptInterface.ObjectiveValue)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/optimizer_interface.jl:1219
+  [8] objective_value(model::Model; result::Int64)
+    @ JuMP ~/.julia/packages/JuMP/N7h14/src/objective.jl:122
+  [9] objective_value
+    @ ~/.julia/packages/JuMP/N7h14/src/objective.jl:118 [inlined]
+ [10] macro expansion
+    @ ./show.jl:1270 [inlined]
+ [11] setPartitioning(solver::Solver)
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/setPartitioning.jl:86
+ [12] ILS(solver::Solver)
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/algorithms.jl:44
+ [13] macro expansion
+    @ ./timing.jl:461 [inlined]
+ [14] main(instance::String; plot::Bool, plotPath::String, plotName::String, seed::Int64, restarts::Int64, iterMax::Int64, nbGranular::Int64, penalty::Int64, randShift::Int64, randSwap::Int64, neighborhoods::Vector{Int64})
+    @ Main ~/Documentos/GitHub/ILS-FCVRP/src/main.jl:81
+ [15] top-level scope
+    @ ~/Documentos/GitHub/ILS-FCVRP/src/main.jl:124
+ [16] include(mod::Module, _path::String)
+    @ Base ./Base.jl:306
+ [17] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:317
+ [18] _start()
+    @ Base ./client.jl:550
+in expression starting at /home/bruno/Documentos/GitHub/ILS-FCVRP/src/main.jl:122
+termination_status(sp) = INFEASIBLE

@@ -101,7 +101,7 @@ function intraSwap11!(solver::Solver)
     flag = false
     sol = solver.currSol
     for r = 1:length(sol.routes)
-            if solver.currSol.lastEval[3, r, r] >= max(solver.currSol.lastModif[r])
+        if solver.currSol.lastEval[3, r, r] >= max(solver.currSol.lastModif[r])
             continue
         end
         bestI = 0
@@ -230,11 +230,13 @@ function interShift10!(solver::Solver)
             for i = 2:length(sol.routes[r1]) - 1
                 for j = 2:length(sol.routes[r2])
                     dist = evalInterShift10(sol.dist, routes, solver, r1, r2, i, j)
-                    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterShift10(solver, r1, r2, i, j)
+                    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterShift10(solver, r1, r2, i, j)
                     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
                     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
                     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
-
+                    # @show minVisitsViolR1, maxVisitsViolR1, length(sol.routes[r1]) - 2 - 1
+                    # @show minVisitsViolR2, maxVisitsViolR2, length(sol.routes[r2]) - 2 + 1
+                    # println("-"^100)
                     improvement = improved(penalizedCost, bestCost)
                     if improvement
                         bestI = i
@@ -298,7 +300,7 @@ function interShift20!(solver::Solver)
             for i = 2:length(sol.routes[r1]) - 2
                 for j = 2:length(sol.routes[r2])
                     dist = evalInterShift20(sol.dist, routes, solver, r1, r2, i, j)
-                    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterShift20(solver, r1, r2, i, j)
+                    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterShift20(solver, r1, r2, i, j)
                     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
                     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
                     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -366,7 +368,7 @@ function interSwap11!(solver::Solver)
             for i = 2:length(sol.routes[r1]) - 1
                 for j = 2:length(sol.routes[r2]) - 1
                     dist = evalInterSwap11(sol.dist, routes, solver, r1, r2, i, j)
-                    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterSwap11(solver, r1, r2, i, j)
+                    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterSwap11(solver, r1, r2, i, j)
                     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
                     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
                     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -399,7 +401,15 @@ end
 
 function interSwap21!(solver::Solver)
     flag = false
-    routesIdx = shuffle!(solver.seed, Int[i for i = 1:length(solver.currSol.routes)])
+    sol = solver.currSol
+    # routesIdx = shuffle!(solver.seed, Int[i for i = 1:length(solver.currSol.routes)])
+    resize!(solver.buffer, length(sol.routes))
+
+    copyto!(solver.buffer, 1:length(sol.routes))
+
+    shuffle!(solver.buffer)
+
+    routesIdx = solver.buffer 
     for r1 in routesIdx# = 1:length(sol.routes)
         bestI = 0
         bestJ = 0
@@ -416,13 +426,16 @@ function interSwap21!(solver::Solver)
         bestMaxVisitsViolR1 = 0.
         bestMaxVisitsViolR2 = 0.
         for r2 in routesIdx
-            if r2 == r1
+            if r2 <= r1
+                continue
+            end
+            if solver.currSol.lastEval[8, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end
             for i = 2:length(sol.routes[r1]) - 2
                 for j = 2:length(sol.routes[r2]) - 1
                     dist = evalInterSwap21(sol.dist, routes, solver, r1, r2, i, j)
-                    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterSwap21(solver, r1, r2, i, j)
+                    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterSwap21(solver, r1, r2, i, j)
                     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
                     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
                     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -490,7 +503,7 @@ function interSwap22!(solver::Solver)
             for i = 2:length(sol.routes[r1]) - 2
                 for j = 2:length(sol.routes[r2]) - 2
                     dist = evalInterSwap22(sol.dist, routes, solver, r1, r2, i, j)
-                    capViolR1, capViolR2, minVisitsViolR1, minVisitsViolR2, maxVisitsViolR1, maxVisitsViolR2 = computeViolInterSwap22(solver, r1, r2, i, j)
+                    capViolR1, capViolR2, minVisitsViolR1, maxVisitsViolR1, minVisitsViolR2, maxVisitsViolR2 = computeViolInterSwap22(solver, r1, r2, i, j)
                     penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r1] + capViolR1 - sol.routeCapViolation[r2] + capViolR2)
                     penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r1] + minVisitsViolR1 - sol.routeMinVisitsViolation[r2] + minVisitsViolR2)
                     penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r1] + maxVisitsViolR1 - sol.routeMaxVisitsViolation[r2] + maxVisitsViolR2)
@@ -602,9 +615,9 @@ function familiarRelocateSwap!(solver::Solver)
                         # if rout == rin
                         #     continue
                         # end
-                        if solver.currSol.lastEval[10, rout, rin] >= max(solver.currSol.lastModif[rout], solver.currSol.lastModif[rin])
-                            continue
-                        end    
+                        # if solver.currSol.lastEval[10, rout, rin] >= max(solver.currSol.lastModif[rout], solver.currSol.lastModif[rin])
+                        #     continue
+                        # end    
                         for pos = 2:length(sol.routes[rin])
                             dist = evalFamiliarRelocateSwap(sol.dist, sol.routes, solver, rout, i, rin, pos, outer)
                             capOut, minOut, maxOut, capIn, minIn, maxIn =

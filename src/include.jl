@@ -1,4 +1,4 @@
-using Random, JuMP, CPLEX, Printf
+using Random, JuMP, CPLEX, Printf, Profile
 import Base: push!
 import Base: hash
 include("structs.jl")

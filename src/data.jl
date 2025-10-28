@@ -182,7 +182,7 @@ function read_heterogeneous_fleet(filename::String)::ProblemData
             costMatrix,
             n_agents,                # maxNbRoutes
             vehicles,
-            -typemax(Int),
+            0,
             typemax(Int),
             n_families,
             collect(1:n_families),
@@ -190,3 +190,77 @@ function read_heterogeneous_fleet(filename::String)::ProblemData
         )
     end
 end
+
+function read_cunha(filename::String)::ProblemData
+    open(filename, "r") do io
+        # --- Cabeçalho principal ---
+        n_nodes_excl_depot = parse(Int, readline(io))
+        n_families = parse(Int, readline(io))
+        total_visits = parse(Int, readline(io))
+        n_tours = parse(Int, readline(io))
+        
+        # min e max visitas por tour
+        min_max = parse.(Int, split(readline(io)))
+        min_visits, max_visits = min_max
+
+        # número de elementos por família
+        elems_per_family = parse.(Int, split(readline(io)))
+
+        # --- Nós pertencentes a cada família ---
+        families_nodes = Vector{Vector{Int}}()
+        for _ in 1:n_families
+            push!(families_nodes, parse.(Int, split(readline(io))))
+        end
+
+        # --- Visitas por família ---
+        visits = Int[]
+        for _ in 1:n_families
+            line = split(readline(io))
+            # formato: id_family num_visits
+            push!(visits, parse(Int, line[2]))
+        end
+
+        # --- Matriz de custos (depósito incluído) ---
+        total_nodes = n_nodes_excl_depot + 1  # inclui o depósito
+        costMatrix = zeros(Float64, total_nodes, total_nodes)
+        for i in 1:total_nodes
+            values = parse.(Float64, split(readline(io)))
+            costMatrix[i, :] .= values
+            costMatrix[i, i] = 0.0
+        end
+
+        # --- Construção dos vértices ---
+        vertices = Vector{Vertex}()
+        for fam_id in 1:n_families
+            for node in families_nodes[fam_id]
+                push!(vertices, Vertex(node, 0.0, 0.0, 0.0, fam_id))
+            end
+        end
+
+        # --- Depósito ---
+        depot = Vertex(0, 0.0, 0.0, 0.0, 0)
+
+        # --- Veículos ---
+        vehicles = [Vehicle(10000) for _ in 1:n_tours]
+        # for vert in vertices
+        #     @show vert
+        # end
+        # @show min_visits
+        # @show max_visits
+        # sleep(1000)
+        # --- Struct final ---
+        return ProblemData(
+            depot,
+            vertices,
+            costMatrix,
+            n_tours,          # maxNbRoutes
+            vehicles,
+            min_visits,
+            max_visits,
+            n_families,
+            collect(1:n_families),
+            visits
+        )
+    end
+end
+
