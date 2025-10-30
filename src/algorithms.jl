@@ -36,11 +36,11 @@ function ILS(solver::Solver)
         end
         ILS(solver, r)
     end
-    for (r, c) in solver.pool
-       if c > 1.05*solver.bestFeasSol.cost
-           delete!(solver.pool, r)
-       end
-    end
+    # for (r, c) in solver.pool
+    #    if c > 1.05*solver.bestFeasSol.cost
+    #        delete!(solver.pool, r)
+    #    end
+    # end
     solver.bestSol = setPartitioning(solver)
 end
 
@@ -66,7 +66,7 @@ function ILS(solver::Solver, r::Int)
         #     header_time += 20.0
         # end
 
-        if mod(it, 500) == 0
+        if mod(it, 1) == 0
             @printf("| %8d | %10d | %16.2f | %16.2f | %12.2f | %12.2f | %10.2f | %10.2f | %6d | %10.4f |\n",
                 r,
                 it,

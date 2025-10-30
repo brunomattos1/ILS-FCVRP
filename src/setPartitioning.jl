@@ -20,14 +20,12 @@ end
 function push!(solver::Solver)
     for r = 1:length(solver.currSol.routes)
         if solver.currSol.routeCapViolation[r] <= 1e-4 && solver.currSol.routeMinVisitsViolation[r] <= 1e-4 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-4
-            # hash_ = hash(solver.currSol.routes[r])
+            route = copy(solver.currSol.routes[r])
             if haskey(solver.pool, solver.currSol.routes[r])
-                solver.pool[copy(solver.currSol.routes[r])] = min(solver.pool[copy(solver.currSol.routes[r])], solver.currSol.cost)
+                #solver.pool[route] = min(solver.pool[route], solver.currSol.cost)
             else
-                solver.pool[copy(solver.currSol.routes[r])] = solver.currSol.cost
-                # push!(solver.pool, copy(solver.currSol.routes[r]))
-                # solver.pool[copy(solver.currSol.routes[r])] = solver.currSol.cost
-                push!(solver.poolVehicles, r)
+                solver.pool[route] = (solver.currSol.cost, r)
+                # solver.poolVehicles[route] = r
             end
         end
     end
@@ -50,50 +48,70 @@ function β(solver::Solver, route::Vector{Int}, family::Int)
     return visits
 end
 
-function c(solver::Solver, pool::Vector{Vector{Int}}, r::Int)
-    cost = 0.
-    for i = 1:length(pool[r])-1
-        cost += solver.data.costMatrix[pool[r][i]+1, pool[r][i+1]+1]
+# Função de custo — recalculando via matriz de custos
+function c(solver::Solver, route::Vector{Int})
+    total = 0.0
+    for i in 1:length(route)-1
+        total += solver.data.costMatrix[route[i]+1, route[i+1]+1]
     end
-    return cost
+    return total
 end
 
 function setPartitioning(solver::Solver)
     sp = Model(CPLEX.Optimizer)
-    set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff", solver.bestFeasSol.cost + 0.5)
-    # pool = collect(keys(solver.pool))
-    # set_silent(sp)
-    pool = Vector{Vector{Int}}()
-    for (r, c) in solver.pool
-        push!(pool, r)
-    end
-    @variable(sp, λ[r = 1:length(pool)], Bin)
-    @objective(sp, Min, sum(c(solver, pool, r)λ[r] for r = 1:length(pool)))
 
-    for f = 1:solver.data.numFamilies
-        @constraint(sp, sum(β(solver, pool[r], f)λ[r] for r = 1:length(pool)) == solver.data.visits[f])
+    set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff",
+                            solver.bestFeasSol.cost + 0.5)
+
+    # Extrai rotas diretamente do pool
+    routes = collect(keys(solver.pool))
+
+    @variable(sp, λ[r = 1:length(routes)], Bin)
+
+    # Funções auxiliares
+    cost(r) = solver.pool[routes[r]][1]
+    vehicle(r) = solver.pool[routes[r]][2]
+
+    @objective(sp, Min, sum(c(solver, routes[r]) * λ[r] for r in 1:length(routes)))
+
+    # Restrição por família
+    for f in 1:solver.data.numFamilies
+        @constraint(sp,
+            sum(β(solver, routes[r], f) * λ[r] for r in 1:length(routes)) ==
+            solver.data.visits[f]
+        )
     end
 
-    @constraint(sp, [i = 1:length(solver.data.vertices)], sum(α(i, pool[r])λ[r] for r = 1:length(pool)) <= 1)
-    # @constraint(sp, sum(λ[r] for r = 1:length(pool)) == solver.data.maxNbRoutes)
+    # Restrição de cobertura por cliente
+    @constraint(sp, [i = 1:length(solver.data.vertices)],
+        sum(α(i, routes[r]) * λ[r] for r in 1:length(routes)) <= 1
+    )
 
-    for _vehicle = 1:solver.data.maxNbRoutes
-        @constraint(sp, sum(λ[r] for r = 1:length(solver.pool) if solver.poolVehicles[r] == _vehicle) <= 1)
+    # Número máximo de rotas
+    # @constraint(sp, sum(λ[r] for r in 1:length(routes)) == solver.data.maxNbRoutes)
+
+    # Cada veículo pode usar no máximo uma rota
+    for v in 1:solver.data.maxNbRoutes
+        @constraint(sp,
+            sum(λ[r] for r in 1:length(routes) if vehicle(r) == v) <= 1
+        )
     end
+
     optimize!(sp)
+
     cost = 0.
     @show termination_status(sp)
     @show objective_value(sp)
     if termination_status(sp) == OPTIMAL
-        for r = 1:length(pool)
+        for r = 1:length(routes)
             if value(λ[r]) >= 0.9
-                for i = 1:length(pool[r])-1
-                    cost += solver.data.costMatrix[pool[r][i]+1, pool[r][i+1]+1]
+                for i = 1:length(routes[r])-1
+                    cost += solver.data.costMatrix[routes[r][i]+1, routes[r][i+1]+1]
                 end
             end
         end
         sol = Solution()
-        sol.routes = [pool[r] for r = 1:length(pool) if value(λ[r]) >= 0.9]
+        sol.routes = [routes[r] for r = 1:length(routes) if value(λ[r]) >= 0.9]
         sol.cost, sol.dist = cost, cost
         return sol
     elseif termination_status(sp) == TIME_LIMIT

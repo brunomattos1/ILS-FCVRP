@@ -12,7 +12,7 @@ function perturb!(solver::Solver)
             perturbed = randomInterShit10!(solver)
         end
     else
-        for _ = 1:5
+        for _ = 1:2
             perturbed = randomFamiliarSwap!(solver)
         end
     end
@@ -73,20 +73,22 @@ end
 
 function randomFamiliarSwap!(solver::Solver)
     sol = solver.currSol
-    r, i, outer = 0, 0, 0
+    rout, rin, i, pos, outer = 0, 0, 0, 0, 0
     loop = true
     counter = 0
     while loop
         loop = false
-        r = rand(solver.seed, 1:length(sol.routes))
-        if length(sol.routes[r]) <= 2
+        rout = rand(solver.seed, 1:length(sol.routes))
+        rin = rand(solver.seed, 1:length(sol.routes))
+        if length(sol.routes[rout]) <= 2 || rin != rout
             loop = true
         else
-            i = rand(solver.seed, 2:length(sol.routes[r])-1)
-            family = solver.data.vertices[sol.routes[r][i]].family
+            i = rand(solver.seed, 2:length(sol.routes[rout])-1)
+            family = solver.data.vertices[sol.routes[rout][i]].family
             if length(sol.notVisited[family]) == 0
                 loop = true
             else
+                pos = rand(solver.seed, 2:length(sol.routes[rin]))
                 outer = rand(solver.seed, sol.notVisited[family])
             end
         end
@@ -95,11 +97,34 @@ function randomFamiliarSwap!(solver::Solver)
             return false
         end
     end
-    dist = evalFamiliarSwap(sol.dist, sol.routes, solver, r, i, outer)
-    capViol, minVisitsViol, maxVisitsViol = computeViolFamiliarSwap(solver, r, i, outer)
-    penalizedCost = dist + solver.params.capPenalty*(sol.capViolation - sol.routeCapViolation[r] + capViol)
-    penalizedCost += solver.params.minVisitsPenalty*(sol.minVisitsViolation - sol.routeMinVisitsViolation[r] + minVisitsViol)
-    penalizedCost += solver.params.maxVisitsPenalty*(sol.maxVisitsViolation - sol.routeMaxVisitsViolation[r] + maxVisitsViol)
-    applyMoveFamiliarSwap(solver, dist, penalizedCost, capViol, minVisitsViol, maxVisitsViol, r, i, outer)
+    dist = evalFamiliarRelocateSwap(sol.dist, sol.routes, solver, rout, i, rin, pos, outer)
+    capOut, minOut, maxOut, capIn, minIn, maxIn =
+        computeViolFamiliarRelocateSwap(solver, rout, i, rin, pos, outer)
+
+    penalizedCost = dist
+    # Atualiza custo penalizado levando em conta as duas rotas afetadas
+    if rout != rin
+        penalizedCost += solver.params.capPenalty * (
+            sol.capViolation - sol.routeCapViolation[rout] - sol.routeCapViolation[rin] + capOut + capIn)
+
+        penalizedCost += solver.params.minVisitsPenalty * (
+            sol.minVisitsViolation - sol.routeMinVisitsViolation[rout] - sol.routeMinVisitsViolation[rin] + minOut + minIn)
+
+        penalizedCost += solver.params.maxVisitsPenalty * (
+            sol.maxVisitsViolation - sol.routeMaxVisitsViolation[rout] - sol.routeMaxVisitsViolation[rin] + maxOut + maxIn)
+    else
+        penalizedCost += solver.params.capPenalty * (
+            sol.capViolation - sol.routeCapViolation[rout] + capOut)
+
+        penalizedCost += solver.params.minVisitsPenalty * (
+            sol.minVisitsViolation - sol.routeMinVisitsViolation[rout] + minOut)
+
+        penalizedCost += solver.params.maxVisitsPenalty * (
+            sol.maxVisitsViolation - sol.routeMaxVisitsViolation[rout] + maxOut)
+    end
+    applyMoveFamiliarRelocateSwap(
+        solver, dist, penalizedCost, capOut, capIn, minOut, minIn, maxOut, maxIn,
+        rin, pos, rout, i, outer
+    )
     return true
 end

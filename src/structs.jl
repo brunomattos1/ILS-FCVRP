@@ -155,8 +155,8 @@ mutable struct Solver
     diversification::Diversification
     neighborhoods::Vector{Int}
     active_neighs::Vector{Int}
-    pool::Dict{Vector{Int}, Float64}
-    poolVehicles::Vector{Int}
+    pool::Dict{Vector{Int}, Tuple{Float64, Int}}
+    poolVehicles::Dict{Vector{Int}, Int}
     hashes::Set{UInt64}
     buffer::Vector{Int}
 end
@@ -172,8 +172,8 @@ function Solver(;
     diversification = Diversification(),
     neighborhoods = [i for i = 1:10],
     active_neighs = [i for i = 1:10],
-    pool = Dict{Vector{Int}, Float64}(),
-    poolVehicles = Vector{Int}(),
+    pool = Dict{Vector{Int}, Tuple{Float64, Int}}(),
+    poolVehicles = Dict{Vector{Int}, Int}(),
     hashes = Set{UInt64}(),
     buffer = Vector{Int}()
 )

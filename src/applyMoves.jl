@@ -234,6 +234,11 @@ function applyMoveInterSwap21!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routeCapViolation[r1] = newCapViolR1
     solver.currSol.routeCapViolation[r2] = newCapViolR2
 
+    solver.currSol.demands[r1] -= demand(solver, solver.currSol.routes[r1][i]) + demand(solver, solver.currSol.routes[r1][i+1])
+    solver.currSol.demands[r1] += demand(solver, solver.currSol.routes[r2][j])
+    solver.currSol.demands[r2] -= demand(solver, solver.currSol.routes[r2][j])
+    solver.currSol.demands[r2] += demand(solver, solver.currSol.routes[r1][i]) + demand(solver, solver.currSol.routes[r1][i+1])
+
     solver.currSol.minVisitsViolation = solver.currSol.minVisitsViolation - solver.currSol.routeMinVisitsViolation[r1] + newMinVisitsViolR1 - solver.currSol.routeMinVisitsViolation[r2] + newMinVisitsViolR2
     solver.currSol.routeMinVisitsViolation[r1] = newMinVisitsViolR1
     solver.currSol.routeMinVisitsViolation[r2] = newMinVisitsViolR2
