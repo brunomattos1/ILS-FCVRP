@@ -22,10 +22,11 @@ function push!(solver::Solver)
         if solver.currSol.routeCapViolation[r] <= 1e-4 && solver.currSol.routeMinVisitsViolation[r] <= 1e-4 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-4
             route = copy(solver.currSol.routes[r])
             if haskey(solver.pool, solver.currSol.routes[r])
-                #solver.pool[route] = min(solver.pool[route], solver.currSol.cost)
+                solver.poolCosts[route] = min(solver.poolCosts[route], solver.currSol.cost)
+                solver.pool[route] = r
             else
-                solver.pool[route] = (solver.currSol.cost, r)
-                # solver.poolVehicles[route] = r
+                solver.pool[route] = r
+                solver.poolCosts[route] = solver.currSol.cost
             end
         end
     end
@@ -65,13 +66,9 @@ function setPartitioning(solver::Solver)
 
     # Extrai rotas diretamente do pool
     routes = collect(keys(solver.pool))
+    veh(solver::Solver, route::Vector{Int}) = solver.pool[route]
 
     @variable(sp, λ[r = 1:length(routes)], Bin)
-
-    # Funções auxiliares
-    cost(r) = solver.pool[routes[r]][1]
-    vehicle(r) = solver.pool[routes[r]][2]
-
     @objective(sp, Min, sum(c(solver, routes[r]) * λ[r] for r in 1:length(routes)))
 
     # Restrição por família
@@ -93,7 +90,7 @@ function setPartitioning(solver::Solver)
     # Cada veículo pode usar no máximo uma rota
     for v in 1:solver.data.maxNbRoutes
         @constraint(sp,
-            sum(λ[r] for r in 1:length(routes) if vehicle(r) == v) <= 1
+            sum(λ[r] for r in 1:length(routes) if veh(solver, routes[r]) == v) <= 1
         )
     end
 

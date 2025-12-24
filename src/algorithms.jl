@@ -36,11 +36,11 @@ function ILS(solver::Solver)
         end
         ILS(solver, r)
     end
-    # for (r, c) in solver.pool
-    #    if c > 1.05*solver.bestFeasSol.cost
-    #        delete!(solver.pool, r)
-    #    end
-    # end
+    for (r, c) in solver.pool
+       if solver.poolCosts[r] > 1.05*solver.bestFeasSol.cost
+           delete!(solver.pool, r)
+       end
+    end
     solver.bestSol = setPartitioning(solver)
 end
 

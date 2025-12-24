@@ -83,11 +83,11 @@ function main(instance::String;
     printSolution(solver, solver.bestSol)
     return time, solver.bestSol.cost
 end
-path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/heterogeneous_fleet/SYBier1002D.dat"
+path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/heterogeneous_fleet/SYGr1001D.dat"
 main(path;
     seed = 1,
     restarts = 1, 
-    iterMax = 10000,
+    iterMax = 3000,
     randShift = 2,
     randSwap = 2)
 

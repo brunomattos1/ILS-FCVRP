@@ -155,8 +155,8 @@ mutable struct Solver
     diversification::Diversification
     neighborhoods::Vector{Int}
     active_neighs::Vector{Int}
-    pool::Dict{Vector{Int}, Tuple{Float64, Int}}
-    poolVehicles::Dict{Vector{Int}, Int}
+    pool::Dict{Vector{Int}, Int}
+    poolCosts::Dict{Vector{Int}, Float64}
     hashes::Set{UInt64}
     buffer::Vector{Int}
 end
@@ -172,14 +172,14 @@ function Solver(;
     diversification = Diversification(),
     neighborhoods = [i for i = 1:10],
     active_neighs = [i for i = 1:10],
-    pool = Dict{Vector{Int}, Tuple{Float64, Int}}(),
-    poolVehicles = Dict{Vector{Int}, Int}(),
+    pool = Dict{Vector{Int}, Int}(),
+    poolCosts = Dict{Vector{Int}, Float64}(),
     hashes = Set{UInt64}(),
     buffer = Vector{Int}()
 )
     Solver(
         Random.MersenneTwister(seed), params, data, currSol, bestSol, bestFeasSol,
-        diversification, neighborhoods, active_neighs, pool, poolVehicles, hashes, buffer
+        diversification, neighborhoods, active_neighs, pool, poolCosts, hashes, buffer
     )
 end
 
