@@ -1,0 +1,1 @@
+alpha,instance,bestCost,avgCost,avgTime

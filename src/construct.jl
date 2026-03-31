@@ -134,14 +134,14 @@ function bestParallelInsertion(solver::Solver)
     solver.currSol.lastEval = Array{Int,3}(undef, 10, R, R)
     for moveId in intraMoveId
         for r in 1:R
-            solver.currSol.lastEval[moveId, r, r] = solver.currSol.timeStamp
+            1==2#solver.currSol.lastEval[moveId, r, r] = solver.currSol.timeStamp
         end
     end
     interMoveId = [5, 6, 7, 8, 9, 10]
     for moveId in interMoveId
         for r1 in 1:R
             for r2 in 1:R
-                solver.currSol.lastEval[moveId, r1, r2] = solver.currSol.timeStamp
+                1==2#solver.currSol.lastEval[moveId, r1, r2] = solver.currSol.timeStamp
             end
         end
     end

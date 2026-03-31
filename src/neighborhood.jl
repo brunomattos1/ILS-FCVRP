@@ -2,7 +2,7 @@
 function intraShift10!(solver::Solver)
     flag = false
     for r = 1:length(solver.currSol.routes)
-        if solver.currSol.lastEval[1, r, r] >= max(solver.currSol.lastModif[r])
+        if 1==2#solver.currSol.lastEval[1, r, r] >= max(solver.currSol.lastModif[r])
             continue
         end
         bestI = 0
@@ -51,7 +51,7 @@ function intraShift20!(solver::Solver)
     flag = false
     sol = solver.currSol
     for r = 1:length(sol.routes)
-        if solver.currSol.lastEval[2, r, r] >= max(solver.currSol.lastModif[r])
+        if 1==2#solver.currSol.lastEval[2, r, r] >= max(solver.currSol.lastModif[r])
             continue
         end
         bestI = 0
@@ -101,7 +101,7 @@ function intraSwap11!(solver::Solver)
     flag = false
     sol = solver.currSol
     for r = 1:length(sol.routes)
-        if solver.currSol.lastEval[3, r, r] >= max(solver.currSol.lastModif[r])
+        if 1==2#solver.currSol.lastEval[3, r, r] >= max(solver.currSol.lastModif[r])
             continue
         end
         bestI = 0
@@ -150,7 +150,7 @@ function twoOpt!(solver::Solver)
     flag = false
     sol = solver.currSol
     for r = 1:length(sol.routes)
-        if solver.currSol.lastEval[4, r, r] >= max(solver.currSol.lastModif[r])
+        if 1==2#solver.currSol.lastEval[4, r, r] >= max(solver.currSol.lastModif[r])
             continue
         end
         bestI = 0
@@ -224,7 +224,7 @@ function interShift10!(solver::Solver)
             if r2 == r1
                 continue
             end
-            if solver.currSol.lastEval[5, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
+            if 1==2#solver.currSol.lastEval[5, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end
             for i = 2:length(sol.routes[r1]) - 1
@@ -294,7 +294,7 @@ function interShift20!(solver::Solver)
             if r2 == r1
                 continue
             end
-            if solver.currSol.lastEval[6, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
+            if 1==2#solver.currSol.lastEval[6, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end
             for i = 2:length(sol.routes[r1]) - 2
@@ -362,7 +362,7 @@ function interSwap11!(solver::Solver)
             if r2 <= r1
                 continue
             end
-            if solver.currSol.lastEval[7, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
+            if 1==2#solver.currSol.lastEval[7, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end            
             for i = 2:length(sol.routes[r1]) - 1
@@ -429,7 +429,7 @@ function interSwap21!(solver::Solver)
             if r2 <= r1
                 continue
             end
-            if solver.currSol.lastEval[8, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
+            if 1==2#solver.currSol.lastEval[8, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end
             for i = 2:length(sol.routes[r1]) - 2
@@ -497,7 +497,7 @@ function interSwap22!(solver::Solver)
             if r2 <= r1
                 continue
             end
-            if solver.currSol.lastEval[8, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
+            if 1==2#solver.currSol.lastEval[8, r1, r2] >= max(solver.currSol.lastModif[r1], solver.currSol.lastModif[r2])
                 continue
             end
             for i = 2:length(sol.routes[r1]) - 2
@@ -549,7 +549,7 @@ function familiarSwap!(solver::Solver)
         bestMaxVisitsViol = sol.maxVisitsViolation
         for outer in sol.notVisited[family]
             for r = 1:length(sol.routes)
-                if solver.currSol.lastEval[9, r, r] >= max(solver.currSol.lastModif[r], solver.currSol.lastModif[r])
+                if 1==2#solver.currSol.lastEval[9, r, r] >= max(solver.currSol.lastModif[r], solver.currSol.lastModif[r])
                     continue
                 end
                 for i = 2:length(sol.routes[r])-1
@@ -615,7 +615,7 @@ function familiarRelocateSwap!(solver::Solver)
                         # if rout == rin
                         #     continue
                         # end
-                        # if solver.currSol.lastEval[10, rout, rin] >= max(solver.currSol.lastModif[rout], solver.currSol.lastModif[rin])
+                        # if 1==2#solver.currSol.lastEval[10, rout, rin] >= max(solver.currSol.lastModif[rout], solver.currSol.lastModif[rin])
                         #     continue
                         # end    
                         for pos = 2:length(sol.routes[rin])

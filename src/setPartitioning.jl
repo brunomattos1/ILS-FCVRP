@@ -22,8 +22,8 @@ function push!(solver::Solver)
         if solver.currSol.routeCapViolation[r] <= 1e-4 && solver.currSol.routeMinVisitsViolation[r] <= 1e-4 && solver.currSol.routeMaxVisitsViolation[r] <= 1e-4
             route = copy(solver.currSol.routes[r])
             if haskey(solver.pool, solver.currSol.routes[r])
-                solver.poolCosts[route] = min(solver.poolCosts[route], solver.currSol.cost)
-                solver.pool[route] = r
+                # solver.poolCosts[route] = min(solver.poolCosts[route], solver.currSol.cost)
+                # solver.pool[route] = r
             else
                 solver.pool[route] = r
                 solver.poolCosts[route] = solver.currSol.cost
@@ -60,10 +60,10 @@ end
 
 function setPartitioning(solver::Solver)
     sp = Model(CPLEX.Optimizer)
-
+    set_silent(sp)
     set_optimizer_attribute(sp, "CPXPARAM_MIP_Tolerances_UpperCutoff",
                             solver.bestFeasSol.cost + 0.5)
-
+    set_time_limit_sec(sp, 30.0)
     # Extrai rotas diretamente do pool
     routes = collect(keys(solver.pool))
     veh(solver::Solver, route::Vector{Int}) = solver.pool[route]
@@ -85,20 +85,19 @@ function setPartitioning(solver::Solver)
     )
 
     # Número máximo de rotas
-    # @constraint(sp, sum(λ[r] for r in 1:length(routes)) == solver.data.maxNbRoutes)
+    @constraint(sp, sum(λ[r] for r in 1:length(routes)) == solver.data.maxNbRoutes)
 
     # Cada veículo pode usar no máximo uma rota
-    for v in 1:solver.data.maxNbRoutes
-        @constraint(sp,
-            sum(λ[r] for r in 1:length(routes) if veh(solver, routes[r]) == v) <= 1
-        )
-    end
+    # for v in 1:solver.data.maxNbRoutes
+    #     @constraint(sp,
+    #         sum(λ[r] for r in 1:length(routes) if veh(solver, routes[r]) == v) <= 1
+    #     )
+    # end
 
     optimize!(sp)
 
     cost = 0.
     @show termination_status(sp)
-    @show objective_value(sp)
     if termination_status(sp) == OPTIMAL
         for r = 1:length(routes)
             if value(λ[r]) >= 0.9

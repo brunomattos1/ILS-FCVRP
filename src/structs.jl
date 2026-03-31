@@ -82,6 +82,7 @@ end
 mutable struct Parameters
     restarts::Int
     iterMax::Int
+    alpha::Float64
     capPenalty::Float64
     capPenaltyFactor::Float64
     minVisitsPenalty::Float64
@@ -90,10 +91,10 @@ mutable struct Parameters
     maxVisitsPenaltyFactor::Float64
 
 end
-Parameters() = Parameters(1, 1, 100.0, 0.01, 100.0, 0.01, 100.0, 0.01)
+Parameters() = Parameters(1, 1, 0.995, 100.0, 0.01, 100.0, 0.01, 100.0, 0.01)
 function updatePenalties(params::Parameters, sol::Solution)
     if sol.capViolation <= 1e-6
-        params.capPenalty = max(0.01, (1 - params.capPenaltyFactor) * params.capPenalty)
+        params.capPenalty = max(0.0001, (1 - params.capPenaltyFactor) * params.capPenalty)
     else
         params.capPenalty = min(10000.0, (1 + params.capPenaltyFactor) * params.capPenalty)
     end

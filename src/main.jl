@@ -64,32 +64,34 @@ function main(instance::String;
             penalty::Int = 100,
             randShift::Int = 3,
             randSwap::Int = 3,
-            neighborhoods::Vector{Int} = [1, 2, 3, 4, 5, 6, 7, 8, 10]
+            neighborhoods::Vector{Int} = [1, 2, 3, 4, 5, 6, 7, 8, 10],
+            alpha::Float64 = 0.995
             )
-    # data = read_homogeneous_fleet(instance)
-    data = read_heterogeneous_fleet(instance)
+    data = read_homogeneous_fleet(instance)
+    # data = read_heterogeneous_fleet(instance)
     # data = read_cunha(instance)
     
     data.maxNbRoutes = data.maxNbRoutes
     solver = Solver(
         seed = seed,
-        params = Parameters(restarts, iterMax, 100.0, 0.01, 0.0, 0.01, 0.0, 0.01), 
+        params = Parameters(restarts, iterMax, alpha, 100.0, 0.01, 0.0, 0.01, 0.0, 0.01), 
         diversification = Diversification(randShift, randSwap),
         data = data, 
         neighborhoods = neighborhoods
     )
     time = @elapsed ILS(solver)
-    checkSolution(solver, solver.bestSol)
-    printSolution(solver, solver.bestSol)
-    return time, solver.bestSol.cost
+    checkSolution(solver, solver.bestFeasSol)
+    # printSolution(solver, solver.bestFeasSol)
+    return time, solver.bestFeasSol.cost
 end
-path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/heterogeneous_fleet/SYGr1001D.dat"
-main(path;
-    seed = 1,
-    restarts = 1, 
-    iterMax = 3000,
-    randShift = 2,
-    randSwap = 2)
+# path = "C:\\Users\\Administrador\\Documents\\GitHub\\ILS-FCVRP\\instances\\homogeneous_fleet\\P101_4_51_3.fcvrp"
+# main(path;
+#     seed = 1,
+#     restarts = 1, 
+#     iterMax = 5000,
+#     randShift = 2,
+#     randSwap = 2,
+#     alpha = 0.999)
 
 # if length(ARGS) < 1
 #     println("Uso: julia main.jl <path> [seed] [restarts] [iterMax] [randShift] [randSwap]")
@@ -97,50 +99,44 @@ main(path;
 # end
 
 # # Lê argumentos do terminal
-# path       = ARGS[1]
-# seed       = length(ARGS) >= 2 ? parse(Int, ARGS[2]) : 1
-# restarts   = length(ARGS) >= 3 ? parse(Int, ARGS[3]) : 1
-# iterMax    = length(ARGS) >= 4 ? parse(Int, ARGS[4]) : 5000
-# randShift  = length(ARGS) >= 5 ? parse(Int, ARGS[5]) : 1
-# randSwap   = length(ARGS) >= 6 ? parse(Int, ARGS[6]) : 1
+path_instances       = ARGS[1]
 
 # # Exibe os parâmetros
 # println("Executando com parâmetros:")
-# println("  path       = $path")
-# println("  seed       = $seed")
-# println("  restarts   = $restarts")
-# println("  iterMax    = $iterMax")
-# println("  randShift  = $randShift")
-# println("  randSwap   = $randSwap")
+println("  path       = $path_instances")
 
-# seeds = 5
-# # instance = split(path, "/")[end]
-# # Chama sua função principal
-# iters = [500, 1000, 2000, 5000, 10000]
-# instances = readdir("/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/params")
-
-# for iter in iters
-#     for inst in instances
-#         path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/params/"*inst
-#         avgCost = 0.0
-#         avgTime = 0.0
-#         # path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/params/P60_10_6_3.fcvrp"
-#         for seed = 1:seeds
-#             println("Executando instancia $inst na seed $seed com iter $iter")
-#             time, cost = main(path; seed = seed, restarts = 1, iterMax = iter, randShift = 1, randSwap = 1)
-#             avgTime += time
-#             avgCost += cost
-#             Profile.clear_malloc_data()
-#             GC.gc()
-#         end
-#         avgTime = avgTime/seeds
-#         avgCost = avgCost/seeds
-#         open("/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/results/params.txt", "a") do f
-#             write(f, "$iter,$inst,$avgCost,$avgTime\n")
-#         end
-#     end
-
-# end
+seeds = 10
+# instance = split(path, "/")[end]
+# Chama sua função principal
+alphas = [0.998]
+output = joinpath(@__DIR__, "RESULTADOS.txt")
+instances = readdir(path_instances)
+for alpha in alphas
+    for inst in instances
+        path = joinpath(path_instances, inst)
+        best = Inf
+        avgCost = 0.0
+        avgTime = 0.0
+        # path = "/mnt/c/Users/bruno.mattos/OneDrive - americanas s.a/Documentos/GitHub/ILS-FCVRP/instances/params/P60_10_6_3.fcvrp"
+        for seed = 1:seeds
+            println("Executando instancia $inst na seed $seed com alpha $alpha")
+            time, cost = main(path; seed = seed, restarts = 1, iterMax = 10000, randShift = 2, randSwap = 2, alpha = alpha)
+            println("Best cost: ", cost)
+            avgTime += time
+            avgCost += cost
+            if cost < best
+                best = cost
+            end
+            Profile.clear_malloc_data()
+            GC.gc()
+        end
+        avgTime = avgTime/seeds
+        avgCost = avgCost/seeds
+        open(output, "a") do f
+            write(f, "$alpha,$inst,$best,$avgCost,$avgTime\n")
+        end
+    end
+end
 
 
 

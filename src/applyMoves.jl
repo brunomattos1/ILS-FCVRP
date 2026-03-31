@@ -34,7 +34,7 @@ function applyMoveIntraShift10!(solver::Solver, newDist::Float64, newCost::Float
         insert!(solver.currSol.routes[r], j, customerI)
     end
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[1, r, r] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[1, r, r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
 end
 
@@ -61,7 +61,7 @@ function applyMoveIntraShift20!(solver::Solver, newDist::Float64, newCost::Float
         insert!(solver.currSol.routes[r], j, customerI1)
     end
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[2, r, r] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[2, r, r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
 end
 
@@ -78,7 +78,7 @@ function applyMoveIntraSwap11!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routeMaxVisitsViolation[r] = newMaxVisitsViol
     solver.currSol.routes[r][i], solver.currSol.routes[r][j] = solver.currSol.routes[r][j], solver.currSol.routes[r][i]
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[3, r, r] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[3, r, r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
 end
 
@@ -95,7 +95,7 @@ function applyMove2opt!(solver::Solver, newDist::Float64, newCost::Float64, newC
     solver.currSol.routeMaxVisitsViolation[r] = newMaxVisitsViol
     reverse!(solver.currSol.routes[r], i, j)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[4, r, r] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[4, r, r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
 end
 
@@ -123,7 +123,7 @@ function applyMoveInterShift10!(solver::Solver, newDist::Float64, newCost::Float
     deleteat!(solver.currSol.routes[r1], i)
     insert!(solver.currSol.routes[r2], j, customerI)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[4, r1, r2] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[4, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 
@@ -154,7 +154,7 @@ function applyMoveInterShift20!(solver::Solver, newDist::Float64, newCost::Float
     insert!(solver.currSol.routes[r2], j, customerI2)
     insert!(solver.currSol.routes[r2], j, customerI1)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[5, r1, r2] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[5, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -185,7 +185,7 @@ function applyMoveInterSwap11!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routes[r1][i] = customerJ
     solver.currSol.routes[r2][j] = customerI
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[6, r1, r2] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[6, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -221,7 +221,7 @@ function applyMoveInterSwap22!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routes[r2][j] = customerI1
     solver.currSol.routes[r2][j+1] = customerI2
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[7, r1, r2] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[7, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -255,7 +255,7 @@ function applyMoveInterSwap21!(solver::Solver, newDist::Float64, newCost::Float6
     solver.currSol.routes[r2][j] = customerI1
     insert!(solver.currSol.routes[r2], j+1, customerI2)
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[8, r1, r2] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[8, r1, r2] = solver.currSol.timeStamp
     solver.currSol.lastModif[r1] = solver.currSol.timeStamp
     solver.currSol.lastModif[r2] = solver.currSol.timeStamp
 end
@@ -280,7 +280,7 @@ function applyMoveFamiliarSwap(solver::Solver, newDist::Float64, newCost::Float6
 
     solver.currSol.routes[r][i] = outer
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[9, r, r] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[9, r, r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
     solver.currSol.lastModif[r] = solver.currSol.timeStamp
 end
@@ -341,7 +341,7 @@ function applyMoveFamiliarRelocateSwap(
     push!(solver.currSol.notVisited[solver.data.vertices[leaving].family], leaving)
     
     solver.currSol.timeStamp += 1
-    solver.currSol.lastEval[10, rout, rin] = solver.currSol.timeStamp
+    1==2#solver.currSol.lastEval[10, rout, rin] = solver.currSol.timeStamp
     solver.currSol.lastModif[rout] = solver.currSol.timeStamp
     solver.currSol.lastModif[rin] = solver.currSol.timeStamp
 end
